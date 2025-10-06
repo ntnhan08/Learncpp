@@ -402,4 +402,538 @@ string name = "Nguyen Van A";</code></pre>
                         id: 4,
                         type: "code",
                         question: "Khai báo và khởi tạo một biến số nguyên có tên 'soNguyen' với giá trị 100",
-                        initialCode: `#include <iostream>\nusing namespace std;\n\nint main() {\n    // Khai báo và khởi tạo biến soNguyen\n    \n    cout << soNguyen <<
+                        initialCode: `#include <iostream>\nusing namespace std;\n\nint main() {\n    // Khai báo và khởi tạo biến soNguyen\n    \n    cout << soNguyen << endl;\n    return 0;\n}`,
+                        testCases: [
+                            { input: "", expectedOutput: "100" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Toán tử và biểu thức",
+                status: "not-started",
+                content: `
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Toán tử trong C++</h3>
+                    <p class="mb-4">C++ cung cấp nhiều loại toán tử để thực hiện các phép toán khác nhau.</p>
+                    
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử số học</h4>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="min-w-full bg-white border border-gray-300">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="py-2 px-4 border-b">Toán tử</th>
+                                    <th class="py-2 px-4 border-b">Mô tả</th>
+                                    <th class="py-2 px-4 border-b">Ví dụ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">+</td>
+                                    <td class="py-2 px-4 border-b">Cộng</td>
+                                    <td class="py-2 px-4 border-b">a + b</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">-</td>
+                                    <td class="py-2 px-4 border-b">Trừ</td>
+                                    <td class="py-2 px-4 border-b">a - b</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">*</td>
+                                    <td class="py-2 px-4 border-b">Nhân</td>
+                                    <td class="py-2 px-4 border-b">a * b</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">/</td>
+                                    <td class="py-2 px-4 border-b">Chia</td>
+                                    <td class="py-2 px-4 border-b">a / b</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">%</td>
+                                    <td class="py-2 px-4 border-b">Chia lấy phần dư</td>
+                                    <td class="py-2 px-4 border-b">a % b</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử gán</h4>
+                    <div class="code-editor mb-4">
+                        <pre><code>int a = 10;  // Gán giá trị 10 cho a
+a += 5;      // Tương đương a = a + 5
+a -= 3;      // Tương đương a = a - 3
+a *= 2;      // Tương đương a = a * 2
+a /= 4;      // Tương đương a = a / 4
+a %= 3;      // Tương đương a = a % 3</code></pre>
+                    </div>
+                    
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử so sánh</h4>
+                    <div class="code-editor mb-4">
+                        <pre><code>int a = 5, b = 10;
+bool result;
+
+result = (a == b);  // false
+result = (a != b);  // true
+result = (a < b);   // true
+result = (a > b);   // false
+result = (a <= b);  // true
+result = (a >= b);  // false</code></pre>
+                    </div>
+                `,
+                exercises: [
+                    {
+                        id: 5,
+                        type: "quiz",
+                        question: "Toán tử nào dùng để tính phần dư của phép chia?",
+                        options: [
+                            "/",
+                            "%",
+                            "//",
+                            "mod"
+                        ],
+                        correctAnswer: 1
+                    },
+                    {
+                        id: 6,
+                        type: "code",
+                        question: "Viết chương trình tính tổng, hiệu, tích và thương của hai số nguyên a và b",
+                        initialCode: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int a = 15, b = 3;\n    \n    // Tính tổng, hiệu, tích, thương\n    \n    return 0;\n}`,
+                        testCases: [
+                            { input: "", expectedOutput: "Tổng: 18\nHiệu: 12\nTích: 45\nThương: 5" }
+                        ]
+                    }
+                ]
+            },
+            // Các mục học khác sẽ được thêm ở đây...
+        ];
+
+        // Khởi tạo ứng dụng
+        document.addEventListener('DOMContentLoaded', function() {
+            // Khởi tạo dữ liệu trong localStorage nếu chưa có
+            if (!localStorage.getItem('cpp-course-progress')) {
+                const initialProgress = {
+                    completedModules: [1],
+                    moduleStatus: {
+                        1: 'completed',
+                        2: 'in-progress',
+                        3: 'not-started'
+                    },
+                    exerciseScores: {
+                        1: 10, // Bài tập 1 được chấm 10 điểm
+                        2: 8   // Bài tập 2 được chấm 8 điểm
+                    },
+                    totalScore: 18,
+                    averageScore: 9.0
+                };
+                localStorage.setItem('cpp-course-progress', JSON.stringify(initialProgress));
+            }
+
+            // Hiển thị danh sách mục học
+            renderModuleList();
+            
+            // Cập nhật tiến độ
+            updateProgress();
+            
+            // Xử lý sự kiện
+            document.getElementById('start-learning').addEventListener('click', showModuleList);
+            document.getElementById('module-exercises-btn').addEventListener('click', showExercises);
+            document.getElementById('submit-exercises').addEventListener('click', submitExercises);
+            document.getElementById('back-to-module').addEventListener('click', showCurrentModule);
+            document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+            
+            // Hiển thị trang chủ mặc định
+            showHomePage();
+        });
+
+        // Hiển thị danh sách mục học trong sidebar
+        function renderModuleList() {
+            const moduleList = document.getElementById('module-list');
+            moduleList.innerHTML = '';
+            
+            // Thêm mục "Trang chủ"
+            const homeItem = document.createElement('li');
+            homeItem.className = 'module-item p-3 rounded-lg cursor-pointer active-module';
+            homeItem.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-home text-primary mr-3"></i>
+                    <span class="font-medium">Trang chủ</span>
+                </div>
+            `;
+            homeItem.addEventListener('click', showHomePage);
+            moduleList.appendChild(homeItem);
+            
+            // Thêm mục "Bảng tiến độ"
+            const progressItem = document.createElement('li');
+            progressItem.className = 'module-item p-3 rounded-lg cursor-pointer';
+            progressItem.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-chart-line text-primary mr-3"></i>
+                    <span class="font-medium">Bảng tiến độ</span>
+                </div>
+            `;
+            progressItem.addEventListener('click', showProgressPage);
+            moduleList.appendChild(progressItem);
+            
+            // Thêm các mục học
+            courseModules.forEach(module => {
+                const moduleItem = document.createElement('li');
+                moduleItem.className = `module-item p-3 rounded-lg cursor-pointer ${module.id === 2 ? 'active-module' : ''}`;
+                
+                let statusIcon = '❌';
+                if (module.status === 'completed') statusIcon = '✅';
+                else if (module.status === 'in-progress') statusIcon = '⏳';
+                
+                moduleItem.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i class="fas fa-book text-gray-500 mr-3"></i>
+                            <span class="font-medium">${module.title}</span>
+                        </div>
+                        <span>${statusIcon}</span>
+                    </div>
+                `;
+                
+                moduleItem.addEventListener('click', () => showModule(module.id));
+                moduleList.appendChild(moduleItem);
+            });
+        }
+
+        // Hiển thị trang chủ
+        function showHomePage() {
+            document.getElementById('home-page').classList.remove('hidden');
+            document.getElementById('module-page').classList.add('hidden');
+            document.getElementById('exercises-page').classList.add('hidden');
+            document.getElementById('progress-page').classList.add('hidden');
+            
+            // Cập nhật lớp active trong sidebar
+            updateActiveSidebarItem(0);
+        }
+
+        // Hiển thị danh sách mục học (từ trang chủ)
+        function showModuleList() {
+            // Trong thiết kế hiện tại, danh sách mục học đã hiển thị trong sidebar
+            // Nên chúng ta sẽ chọn mục đầu tiên để hiển thị
+            showModule(1);
+        }
+
+        // Hiển thị chi tiết mục học
+        function showModule(moduleId) {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('module-page').classList.remove('hidden');
+            document.getElementById('exercises-page').classList.add('hidden');
+            document.getElementById('progress-page').classList.add('hidden');
+            
+            const module = courseModules.find(m => m.id === moduleId);
+            if (module) {
+                document.getElementById('module-title').textContent = module.title;
+                document.getElementById('module-content').innerHTML = module.content;
+                
+                // Lưu mục hiện tại
+                currentModuleId = moduleId;
+                
+                // Cập nhật lớp active trong sidebar
+                updateActiveSidebarItem(moduleId);
+            }
+        }
+
+        // Hiển thị mục học hiện tại (từ trang bài tập)
+        function showCurrentModule() {
+            if (currentModuleId) {
+                showModule(currentModuleId);
+            }
+        }
+
+        // Hiển thị trang bài tập
+        function showExercises() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('module-page').classList.add('hidden');
+            document.getElementById('exercises-page').classList.remove('hidden');
+            document.getElementById('progress-page').classList.add('hidden');
+            
+            const module = courseModules.find(m => m.id === currentModuleId);
+            if (module) {
+                document.getElementById('exercises-title').textContent = `Bài tập: ${module.title}`;
+                renderExercises(module.exercises);
+            }
+        }
+
+        // Hiển thị trang tiến độ
+        function showProgressPage() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('module-page').classList.add('hidden');
+            document.getElementById('exercises-page').classList.add('hidden');
+            document.getElementById('progress-page').classList.remove('hidden');
+            
+            updateProgressBoard();
+            
+            // Cập nhật lớp active trong sidebar
+            updateActiveSidebarItem(-1);
+        }
+
+        // Hiển thị bài tập
+        function renderExercises(exercises) {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((exercise, index) => {
+                const exerciseElement = document.createElement('div');
+                exerciseElement.className = 'mb-8 p-4 border rounded-lg';
+                exerciseElement.innerHTML = `
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Bài ${index + 1}: ${exercise.question}</h3>
+                    <div class="exercise-content" id="exercise-${exercise.id}"></div>
+                `;
+                
+                container.appendChild(exerciseElement);
+                
+                if (exercise.type === 'quiz') {
+                    renderQuizExercise(exercise);
+                } else if (exercise.type === 'code') {
+                    renderCodeExercise(exercise);
+                }
+            });
+        }
+
+        // Hiển thị bài tập trắc nghiệm
+        function renderQuizExercise(exercise) {
+            const container = document.getElementById(`exercise-${exercise.id}`);
+            container.innerHTML = '';
+            
+            exercise.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option mb-2 p-3 border rounded-lg';
+                optionElement.innerHTML = `
+                    <div class="flex items-center">
+                        <input type="radio" name="exercise-${exercise.id}" value="${index}" class="mr-3">
+                        <span>${option}</span>
+                    </div>
+                `;
+                container.appendChild(optionElement);
+            });
+        }
+
+        // Hiển thị bài tập lập trình
+        function renderCodeExercise(exercise) {
+            const container = document.getElementById(`exercise-${exercise.id}`);
+            container.innerHTML = `
+                <div class="code-editor mb-3">
+                    <textarea class="w-full h-40 bg-gray-800 text-white p-3 rounded" id="code-${exercise.id}">${exercise.initialCode}</textarea>
+                </div>
+                <div class="bg-gray-100 p-3 rounded">
+                    <h4 class="font-bold mb-2">Kết quả mong đợi:</h4>
+                    <pre class="bg-white p-2 rounded">${exercise.testCases[0].expectedOutput}</pre>
+                </div>
+            `;
+        }
+
+        // Nộp bài tập
+        function submitExercises() {
+            const module = courseModules.find(m => m.id === currentModuleId);
+            if (!module) return;
+            
+            let totalScore = 0;
+            let maxScore = module.exercises.length * 10;
+            
+            module.exercises.forEach(exercise => {
+                if (exercise.type === 'quiz') {
+                    const selectedOption = document.querySelector(`input[name="exercise-${exercise.id}"]:checked`);
+                    if (selectedOption && parseInt(selectedOption.value) === exercise.correctAnswer) {
+                        totalScore += 10;
+                        markQuizAnswer(exercise.id, parseInt(selectedOption.value), true);
+                    } else if (selectedOption) {
+                        markQuizAnswer(exercise.id, parseInt(selectedOption.value), false);
+                    }
+                } else if (exercise.type === 'code') {
+                    // Trong thực tế, chúng ta sẽ gửi code đến API để chấm điểm
+                    // Ở đây chúng ta giả lập kết quả
+                    const code = document.getElementById(`code-${exercise.id}`).value;
+                    if (code.includes('Xin chào C++') || code.includes('soNguyen = 100') || 
+                        code.includes('Tổng') || code.includes('Hiệu') || code.includes('Tích') || code.includes('Thương')) {
+                        totalScore += 8; // Giả lập điểm
+                        markCodeResult(exercise.id, true);
+                    } else {
+                        markCodeResult(exercise.id, false);
+                    }
+                }
+            });
+            
+            // Hiển thị kết quả
+            alert(`Bạn đã hoàn thành bài tập!\nĐiểm số: ${totalScore}/${maxScore}`);
+            
+            // Cập nhật tiến độ
+            updateProgressAfterSubmission(module.id, totalScore, maxScore);
+        }
+
+        // Đánh dấu kết quả bài tập trắc nghiệm
+        function markQuizAnswer(exerciseId, selectedOption, isCorrect) {
+            const options = document.querySelectorAll(`input[name="exercise-${exerciseId}"]`);
+            options.forEach((option, index) => {
+                const parent = option.parentElement.parentElement;
+                if (index === selectedOption) {
+                    parent.classList.add(isCorrect ? 'correct-answer' : 'wrong-answer');
+                }
+                option.disabled = true;
+            });
+        }
+
+        // Đánh dấu kết quả bài tập code
+        function markCodeResult(exerciseId, isCorrect) {
+            const textarea = document.getElementById(`code-${exerciseId}`);
+            if (isCorrect) {
+                textarea.classList.add('correct-answer');
+            } else {
+                textarea.classList.add('wrong-answer');
+            }
+            textarea.disabled = true;
+        }
+
+        // Cập nhật tiến độ sau khi nộp bài
+        function updateProgressAfterSubmission(moduleId, score, maxScore) {
+            const progress = JSON.parse(localStorage.getItem('cpp-course-progress'));
+            
+            // Đánh dấu mục là đã hoàn thành nếu chưa
+            if (!progress.completedModules.includes(moduleId)) {
+                progress.completedModules.push(moduleId);
+            }
+            
+            // Cập nhật trạng thái mục
+            progress.moduleStatus[moduleId] = 'completed';
+            
+            // Cập nhật điểm số (giả lập)
+            const module = courseModules.find(m => m.id === moduleId);
+            module.exercises.forEach(exercise => {
+                progress.exerciseScores[exercise.id] = exercise.type === 'quiz' ? 10 : 8;
+            });
+            
+            // Tính lại tổng điểm và điểm trung bình
+            const exerciseIds = Object.keys(progress.exerciseScores);
+            progress.totalScore = exerciseIds.reduce((sum, id) => sum + progress.exerciseScores[id], 0);
+            progress.averageScore = progress.totalScore / exerciseIds.length;
+            
+            // Lưu lại
+            localStorage.setItem('cpp-course-progress', JSON.stringify(progress));
+            
+            // Cập nhật giao diện
+            updateProgress();
+            renderModuleList();
+        }
+
+        // Cập nhật tiến độ tổng thể
+        function updateProgress() {
+            const progress = JSON.parse(localStorage.getItem('cpp-course-progress'));
+            const completedCount = progress.completedModules.length;
+            const totalCount = courseModules.length;
+            const percent = Math.round((completedCount / totalCount) * 100);
+            
+            // Cập nhật thanh tiến trình
+            document.getElementById('overall-progress').style.width = `${percent}%`;
+            document.getElementById('home-progress-bar').style.width = `${percent}%`;
+            
+            // Cập nhật số liệu
+            document.getElementById('progress-percent').textContent = `${percent}%`;
+            document.getElementById('completed-modules').textContent = completedCount;
+        }
+
+        // Cập nhật bảng tiến độ
+        function updateProgressBoard() {
+            const progress = JSON.parse(localStorage.getItem('cpp-course-progress'));
+            const completedCount = progress.completedModules.length;
+            const totalCount = courseModules.length;
+            const percent = Math.round((completedCount / totalCount) * 100);
+            const exerciseCount = Object.keys(progress.exerciseScores).length;
+            
+            // Cập nhật số liệu thống kê
+            document.getElementById('stats-modules').textContent = completedCount;
+            document.getElementById('stats-exercises').textContent = exerciseCount;
+            document.getElementById('stats-average').textContent = progress.averageScore.toFixed(1);
+            document.getElementById('stats-completion').textContent = `${percent}%`;
+            document.getElementById('stats-progress-bar').style.width = `${percent}%`;
+            
+            // Cập nhật bảng chi tiết
+            const tableBody = document.getElementById('progress-table-body');
+            tableBody.innerHTML = '';
+            
+            courseModules.forEach(module => {
+                const row = document.createElement('tr');
+                
+                let statusText = '❌ Chưa học';
+                let score = '-';
+                let date = '-';
+                
+                if (progress.moduleStatus[module.id] === 'completed') {
+                    statusText = '✅ Hoàn thành';
+                    
+                    // Tính điểm trung bình của mục
+                    const moduleExercises = module.exercises;
+                    let moduleScore = 0;
+                    let moduleExerciseCount = 0;
+                    
+                    moduleExercises.forEach(exercise => {
+                        if (progress.exerciseScores[exercise.id]) {
+                            moduleScore += progress.exerciseScores[exercise.id];
+                            moduleExerciseCount++;
+                        }
+                    });
+                    
+                    if (moduleExerciseCount > 0) {
+                        score = (moduleScore / moduleExerciseCount).toFixed(1);
+                    }
+                    
+                    date = 'Hôm nay';
+                } else if (progress.moduleStatus[module.id] === 'in-progress') {
+                    statusText = '⏳ Đang học';
+                }
+                
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">${module.title}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${statusText}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${score}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${date}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Cập nhật mục active trong sidebar
+        function updateActiveSidebarItem(moduleId) {
+            const items = document.querySelectorAll('.module-item');
+            items.forEach((item, index) => {
+                if (index === 0 && moduleId === 0) {
+                    item.classList.add('active-module');
+                } else if (index === 1 && moduleId === -1) {
+                    item.classList.add('active-module');
+                } else if (index > 1) {
+                    const itemModuleId = courseModules[index - 2].id;
+                    if (itemModuleId === moduleId) {
+                        item.classList.add('active-module');
+                    } else {
+                        item.classList.remove('active-module');
+                    }
+                } else {
+                    item.classList.remove('active-module');
+                }
+            });
+        }
+
+        // Chuyển đổi chế độ Dark/Light
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('#dark-mode-toggle i');
+            if (document.body.classList.contains('dark-mode')) {
+                document.body.classList.add('bg-gray-900');
+                document.body.classList.remove('bg-gray-50');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                document.body.classList.remove('bg-gray-900');
+                document.body.classList.add('bg-gray-50');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        // Biến toàn cục
+        let currentModuleId = 1;
+    </script>
+</body>
+</html>
