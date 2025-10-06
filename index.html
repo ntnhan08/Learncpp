@@ -3,40 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học C++ từ cơ bản đến nâng cao</title>
+    <title>C++ Master Roadmap - Học C++ từ cơ bản đến chuyên sâu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3b82f6',
-                        secondary: '#1e40af',
-                        accent: '#60a5fa'
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a'
+                        },
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite'
                     }
                 }
             }
         }
     </script>
     <style>
-        .code-editor {
-            font-family: 'Courier New', monospace;
-            background-color: #1e293b;
-            color: #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 1rem;
+        .hljs { padding: 1rem; border-radius: 0.5rem; }
+        .progress-ring {
+            transform: rotate(-90deg);
         }
-        .progress-bar {
-            height: 8px;
-            border-radius: 4px;
-            background-color: #e5e7eb;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background-color: #10b981;
-            transition: width 0.5s ease-in-out;
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.5s ease;
         }
         .sidebar {
             height: calc(100vh - 4rem);
@@ -46,10 +50,10 @@
             transition: all 0.3s ease;
         }
         .module-item:hover {
-            background-color: #f3f4f6;
+            background-color: rgba(59, 130, 246, 0.1);
         }
         .active-module {
-            background-color: #dbeafe;
+            background-color: rgba(59, 130, 246, 0.15);
             border-left: 4px solid #3b82f6;
         }
         .quiz-option {
@@ -67,21 +71,87 @@
             background-color: #fee2e2;
             border-color: #ef4444;
         }
+        .code-editor {
+            font-family: 'Courier New', monospace;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        .badge-beginner { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .badge-intermediate { background: linear-gradient(135deg, #6b7280, #4b5563); }
+        .badge-advanced { background: linear-gradient(135deg, #10b981, #059669); }
+        .badge-master { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .level-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .dark-mode {
+            background-color: #111827;
+            color: #f9fafb;
+        }
+        .dark-mode .bg-white {
+            background-color: #1f2937;
+        }
+        .dark-mode .text-gray-800 {
+            color: #f9fafb;
+        }
+        .dark-mode .text-gray-600 {
+            color: #d1d5db;
+        }
+        .dark-mode .border-gray-200 {
+            border-color: #374151;
+        }
+        .dark-mode .bg-gray-100 {
+            background-color: #374151;
+        }
+        .dark-mode .bg-gray-50 {
+            background-color: #374151;
+        }
+        .dark-mode .bg-blue-50 {
+            background-color: rgba(30, 58, 138, 0.3);
+        }
+        .dark-mode .bg-green-50 {
+            background-color: rgba(5, 122, 85, 0.3);
+        }
+        .dark-mode .bg-purple-50 {
+            background-color: rgba(76, 29, 149, 0.3);
+        }
+        .dark-mode .bg-yellow-50 {
+            background-color: rgba(113, 63, 18, 0.3);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
     <!-- Header -->
-    <header class="bg-white shadow-sm">
+    <header class="bg-white shadow-sm sticky top-0 z-10">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <i class="fas fa-code text-primary text-2xl mr-3"></i>
-                <h1 class="text-xl font-bold text-gray-800">Học C++</h1>
+                <i class="fas fa-code text-primary-500 text-2xl mr-3"></i>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800">C++ Master Roadmap</h1>
+                    <p class="text-xs text-gray-600">Học C++ từ cơ bản đến chuyên sâu</p>
+                </div>
             </div>
             <div class="flex items-center space-x-4">
-                <div class="hidden md:block">
-                    <div class="text-sm text-gray-600">Tiến độ học tập</div>
-                    <div class="progress-bar w-40">
-                        <div class="progress-fill" id="overall-progress" style="width: 0%"></div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <div class="text-right">
+                        <div class="text-sm text-gray-600">Tiến độ tổng thể</div>
+                        <div class="flex items-center">
+                            <div class="w-32 bg-gray-200 rounded-full h-2 mr-2">
+                                <div class="bg-primary-500 h-2 rounded-full" id="header-progress" style="width: 15%"></div>
+                            </div>
+                            <span class="text-sm font-medium">15%</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                            <span class="text-primary-700 font-bold">U</span>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">User</span>
                     </div>
                 </div>
                 <button id="dark-mode-toggle" class="p-2 rounded-full bg-gray-200 hover:bg-gray-300">
@@ -95,8 +165,8 @@
         <!-- Sidebar -->
         <div class="w-full md:w-1/4 lg:w-1/5 mb-6 md:mb-0 md:pr-4">
             <div class="bg-white rounded-lg shadow sidebar">
-                <div class="p-4 border-b">
-                    <h2 class="font-bold text-lg text-gray-800">Nội dung khóa học</h2>
+                <div class="p-4 border-b border-gray-200">
+                    <h2 class="font-bold text-lg text-gray-800">Lộ trình học tập</h2>
                 </div>
                 <nav class="p-2">
                     <ul id="module-list" class="space-y-1">
@@ -111,49 +181,93 @@
             <!-- Home Page -->
             <div id="home-page" class="bg-white rounded-lg shadow p-6">
                 <div class="text-center py-8">
-                    <h1 class="text-3xl font-bold text-gray-800 mb-4">Học C++ từ cơ bản đến nâng cao</h1>
-                    <p class="text-gray-600 max-w-2xl mx-auto mb-8">
-                        Khóa học toàn diện giúp bạn làm chủ ngôn ngữ lập trình C++ từ những kiến thức cơ bản nhất đến các kỹ thuật nâng cao, kèm theo hệ thống bài tập và chấm điểm tự động.
+                    <h1 class="text-4xl font-bold text-gray-800 mb-4">Lộ trình học C++ từ cơ bản đến chuyên sâu</h1>
+                    <p class="text-gray-600 max-w-3xl mx-auto mb-8 text-lg">
+                        Khóa học toàn diện giúp bạn làm chủ C++ với lý thuyết vững chắc, bài tập thực hành và dự án thực tế. 
+                        Chuẩn bị cho sự nghiệp lập trình, phỏng vấn và các cuộc thi lập trình.
                     </p>
-                    <button id="start-learning" class="bg-primary hover:bg-secondary text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-                        Bắt đầu học
+                    <button id="start-learning" class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg">
+                        Bắt đầu học ngay
                     </button>
                 </div>
                 
-                <div class="mt-10">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Tiến độ học tập của bạn</h2>
-                    <div class="bg-gray-100 p-4 rounded-lg">
-                        <div class="flex justify-between mb-2">
-                            <span class="text-sm font-medium text-gray-700">Hoàn thành: <span id="progress-percent">0%</span></span>
-                            <span class="text-sm text-gray-600"><span id="completed-modules">0</span>/12 mục</span>
+                <div class="mt-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">5 Cấp độ thành thạo C++</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
+                                <span class="text-blue-600 font-bold text-xl">1</span>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">C++ Cơ bản</h3>
+                            <p class="text-gray-600 text-sm mb-4">Nắm vững cú pháp, cấu trúc điều khiển và hàm</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
+                            </div>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="home-progress-bar" style="width: 0%"></div>
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
+                                <span class="text-green-600 font-bold text-xl">2</span>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">C++ Trung cấp</h3>
+                            <p class="text-gray-600 text-sm mb-4">Mảng, chuỗi, con trỏ và xử lý file</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
+                                <span class="text-purple-600 font-bold text-xl">3</span>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">OOP trong C++</h3>
+                            <p class="text-gray-600 text-sm mb-4">Lập trình hướng đối tượng chuyên sâu</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-100 flex items-center justify-center">
+                                <span class="text-yellow-600 font-bold text-xl">4</span>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">CTDL & Giải thuật</h3>
+                            <p class="text-gray-600 text-sm mb-4">Cấu trúc dữ liệu và thuật toán nâng cao</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
+                                <span class="text-red-600 font-bold text-xl">5</span>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">C++ Nâng cao</h3>
+                            <p class="text-gray-600 text-sm mb-4">Dự án thực tế và tối ưu hiệu năng</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 5%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                        <div class="flex items-center mb-3">
-                            <i class="fas fa-book text-blue-500 text-xl mr-3"></i>
-                            <h3 class="font-bold text-gray-800">Học lý thuyết</h3>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-graduation-cap text-blue-500 text-2xl mr-3"></i>
+                            <h3 class="font-bold text-gray-800 text-lg">Lý thuyết chi tiết</h3>
                         </div>
-                        <p class="text-gray-600 text-sm">Nắm vững kiến thức với các bài học chi tiết, ví dụ minh họa và code mẫu.</p>
+                        <p class="text-gray-600">Học với nội dung được biên soạn kỹ lưỡng, ví dụ minh họa trực quan và giải thích dễ hiểu.</p>
                     </div>
-                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                        <div class="flex items-center mb-3">
-                            <i class="fas fa-pencil-alt text-green-500 text-xl mr-3"></i>
-                            <h3 class="font-bold text-gray-800">Làm bài tập</h3>
+                    <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-laptop-code text-green-500 text-2xl mr-3"></i>
+                            <h3 class="font-bold text-gray-800 text-lg">Thực hành đa dạng</h3>
                         </div>
-                        <p class="text-gray-600 text-sm">Thực hành với hệ thống bài tập đa dạng và chấm điểm tự động.</p>
+                        <p class="text-gray-600">Làm chủ C++ qua hàng trăm bài tập từ cơ bản đến nâng cao và các dự án thực tế.</p>
                     </div>
-                    <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                        <div class="flex items-center mb-3">
-                            <i class="fas fa-chart-line text-purple-500 text-xl mr-3"></i>
-                            <h3 class="font-bold text-gray-800">Theo dõi tiến độ</h3>
+                    <div class="bg-purple-50 p-6 rounded-lg border border-purple-200">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-trophy text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="font-bold text-gray-800 text-lg">Theo dõi tiến bộ</h3>
                         </div>
-                        <p class="text-gray-600 text-sm">Theo dõi sự tiến bộ của bạn với bảng thống kê chi tiết.</p>
+                        <p class="text-gray-600">Theo dõi sự tiến bộ của bạn với hệ thống đánh giá chi tiết và huy hiệu thành tích.</p>
                     </div>
                 </div>
             </div>
@@ -161,10 +275,18 @@
             <!-- Module Detail Page -->
             <div id="module-page" class="bg-white rounded-lg shadow p-6 hidden">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 id="module-title" class="text-2xl font-bold text-gray-800">Tiêu đề mục học</h2>
-                    <button id="module-exercises-btn" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded transition duration-300">
-                        Làm bài tập
-                    </button>
+                    <div>
+                        <span id="module-level" class="text-sm font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded">Cấp độ 1: C++ Cơ bản</span>
+                        <h2 id="module-title" class="text-2xl font-bold text-gray-800 mt-1">Tiêu đề mục học</h2>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button id="module-exercises-btn" class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                            <i class="fas fa-pencil-alt mr-2"></i>Làm bài tập
+                        </button>
+                        <button id="module-quiz-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 hidden">
+                            <i class="fas fa-question-circle mr-2"></i>Kiểm tra nhanh
+                        </button>
+                    </div>
                 </div>
                 
                 <div id="module-content" class="prose max-w-none">
@@ -175,13 +297,16 @@
             <!-- Exercises Page -->
             <div id="exercises-page" class="bg-white rounded-lg shadow p-6 hidden">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 id="exercises-title" class="text-2xl font-bold text-gray-800">Bài tập</h2>
+                    <div>
+                        <span id="exercises-level" class="text-sm font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded">Cấp độ 1: C++ Cơ bản</span>
+                        <h2 id="exercises-title" class="text-2xl font-bold text-gray-800 mt-1">Bài tập</h2>
+                    </div>
                     <div class="flex space-x-2">
-                        <button id="submit-exercises" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded transition duration-300">
-                            Nộp bài
+                        <button id="submit-exercises" class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                            <i class="fas fa-paper-plane mr-2"></i>Nộp bài
                         </button>
                         <button id="back-to-module" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded transition duration-300">
-                            Quay lại
+                            <i class="fas fa-arrow-left mr-2"></i>Quay lại
                         </button>
                     </div>
                 </div>
@@ -191,7 +316,34 @@
                 </div>
             </div>
 
-            <!-- Progress Board Page -->
+            <!-- Quiz Page -->
+            <div id="quiz-page" class="bg-white rounded-lg shadow p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <span id="quiz-level" class="text-sm font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded">Cấp độ 1: C++ Cơ bản</span>
+                        <h2 id="quiz-title" class="text-2xl font-bold text-gray-800 mt-1">Kiểm tra nhanh</h2>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-sm text-gray-600">
+                            <span id="quiz-current">1</span>/<span id="quiz-total">5</span> câu
+                        </div>
+                        <div class="flex space-x-2">
+                            <button id="submit-quiz" class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                <i class="fas fa-paper-plane mr-2"></i>Nộp bài
+                            </button>
+                            <button id="back-from-quiz" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded transition duration-300">
+                                <i class="fas fa-times mr-2"></i>Thoát
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="quiz-container">
+                    <!-- Quiz content will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Progress Dashboard Page -->
             <div id="progress-page" class="bg-white rounded-lg shadow p-6 hidden">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6">Bảng tiến độ học tập</h2>
                 
@@ -200,7 +352,7 @@
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-sm text-gray-600">Mục đã học</p>
-                                <h3 class="text-2xl font-bold text-gray-800" id="stats-modules">0</h3>
+                                <h3 class="text-2xl font-bold text-gray-800" id="stats-modules">5</h3>
                             </div>
                             <i class="fas fa-book-open text-blue-500 text-2xl"></i>
                         </div>
@@ -209,7 +361,7 @@
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-sm text-gray-600">Bài tập đã làm</p>
-                                <h3 class="text-2xl font-bold text-gray-800" id="stats-exercises">0</h3>
+                                <h3 class="text-2xl font-bold text-gray-800" id="stats-exercises">23</h3>
                             </div>
                             <i class="fas fa-pencil-alt text-green-500 text-2xl"></i>
                         </div>
@@ -218,7 +370,7 @@
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-sm text-gray-600">Điểm trung bình</p>
-                                <h3 class="text-2xl font-bold text-gray-800" id="stats-average">0.0</h3>
+                                <h3 class="text-2xl font-bold text-gray-800" id="stats-average">8.5</h3>
                             </div>
                             <i class="fas fa-star text-purple-500 text-2xl"></i>
                         </div>
@@ -227,34 +379,162 @@
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-sm text-gray-600">Tỷ lệ hoàn thành</p>
-                                <h3 class="text-2xl font-bold text-gray-800" id="stats-completion">0%</h3>
+                                <h3 class="text-2xl font-bold text-gray-800" id="stats-completion">15%</h3>
                             </div>
                             <i class="fas fa-trophy text-yellow-500 text-2xl"></i>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-gray-100 p-4 rounded-lg mb-8">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Tiến độ tổng thể</h3>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="stats-progress-bar" style="width: 0%"></div>
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Tiến độ từng cấp độ</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-gray-700">Cấp độ 1: C++ Cơ bản</span>
+                                <span class="text-sm text-gray-600">80%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-500 h-2.5 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-gray-700">Cấp độ 2: C++ Trung cấp</span>
+                                <span class="text-sm text-gray-600">40%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-green-500 h-2.5 rounded-full" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-gray-700">Cấp độ 3: OOP trong C++</span>
+                                <span class="text-sm text-gray-600">20%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-purple-500 h-2.5 rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-gray-700">Cấp độ 4: CTDL & Giải thuật</span>
+                                <span class="text-sm text-gray-600">10%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-gray-700">Cấp độ 5: C++ Nâng cao</span>
+                                <span class="text-sm text-gray-600">5%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 5%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="bg-white border rounded-lg overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mục học</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Điểm số</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày hoàn thành</th>
-                            </tr>
-                        </thead>
-                        <tbody id="progress-table-body" class="bg-white divide-y divide-gray-200">
-                            <!-- Progress data will be populated here -->
-                        </tbody>
-                    </table>
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Huy hiệu thành tích</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 rounded-full badge-beginner flex items-center justify-center text-white mb-1">
+                                <i class="fas fa-medal text-xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Beginner</span>
+                        </div>
+                        <div class="flex flex-col items-center opacity-50">
+                            <div class="w-16 h-16 rounded-full badge-intermediate flex items-center justify-center text-white mb-1">
+                                <i class="fas fa-medal text-xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Intermediate</span>
+                        </div>
+                        <div class="flex flex-col items-center opacity-50">
+                            <div class="w-16 h-16 rounded-full badge-advanced flex items-center justify-center text-white mb-1">
+                                <i class="fas fa-medal text-xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Advanced</span>
+                        </div>
+                        <div class="flex flex-col items-center opacity-50">
+                            <div class="w-16 h-16 rounded-full badge-master flex items-center justify-center text-white mb-1">
+                                <i class="fas fa-crown text-xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Master</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Chi tiết tiến độ</h3>
+                    <div class="bg-white border rounded-lg overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mục học</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cấp độ</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Điểm số</th>
+                                </tr>
+                            </thead>
+                            <tbody id="progress-table-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Progress data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Page -->
+            <div id="leaderboard-page" class="bg-white rounded-lg shadow p-6 hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Bảng xếp hạng</h2>
+                
+                <div class="mb-6">
+                    <div class="flex space-x-4">
+                        <button class="px-4 py-2 bg-primary-500 text-white rounded-lg font-medium">Toàn bộ</button>
+                        <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium">Tuần này</button>
+                        <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium">Tháng này</button>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center p-4 bg-gradient-to-r from-yellow-100 to-yellow-50 border border-yellow-200 rounded-lg">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold mr-4">1</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800">Nguyễn Văn A</h3>
+                            <p class="text-sm text-gray-600">Điểm: 985 | Bài tập: 127</p>
+                        </div>
+                        <div class="badge-master text-white px-3 py-1 rounded-full text-sm font-medium">Master</div>
+                    </div>
+                    
+                    <div class="flex items-center p-4 bg-gradient-to-r from-gray-100 to-gray-50 border border-gray-200 rounded-lg">
+                        <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white font-bold mr-4">2</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800">Trần Thị B</h3>
+                            <p class="text-sm text-gray-600">Điểm: 872 | Bài tập: 98</p>
+                        </div>
+                        <div class="badge-advanced text-white px-3 py-1 rounded-full text-sm font-medium">Advanced</div>
+                    </div>
+                    
+                    <div class="flex items-center p-4 bg-gradient-to-r from-orange-100 to-orange-50 border border-orange-200 rounded-lg">
+                        <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold mr-4">3</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800">Lê Văn C</h3>
+                            <p class="text-sm text-gray-600">Điểm: 765 | Bài tập: 84</p>
+                        </div>
+                        <div class="badge-intermediate text-white px-3 py-1 rounded-full text-sm font-medium">Intermediate</div>
+                    </div>
+                    
+                    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-4">7</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800">Bạn</h3>
+                            <p class="text-sm text-gray-600">Điểm: 420 | Bài tập: 45</p>
+                        </div>
+                        <div class="badge-beginner text-white px-3 py-1 rounded-full text-sm font-medium">Beginner</div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -262,214 +542,433 @@
 
     <script>
         // Dữ liệu mẫu cho các mục học
-        const courseModules = [
-            {
-                id: 1,
-                title: "Giới thiệu C++ và môi trường",
-                status: "completed",
-                content: `
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Giới thiệu về C++</h3>
-                    <p class="mb-4">C++ là ngôn ngữ lập trình hướng đối tượng, được phát triển từ ngôn ngữ C. Nó cung cấp các tính năng mạnh mẽ cho lập trình hệ thống và ứng dụng.</p>
-                    
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Cài đặt môi trường</h4>
-                    <p class="mb-4">Để lập trình C++, bạn cần cài đặt một trình biên dịch (compiler) như GCC, Clang hoặc Visual C++.</p>
-                    
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Chương trình C++ đầu tiên</h4>
-                    <p class="mb-4">Dưới đây là chương trình "Hello World" trong C++:</p>
-                    <div class="code-editor mb-4">
-                        <pre><code>#include &lt;iostream&gt;
+        const courseData = {
+            levels: [
+                {
+                    id: 1,
+                    name: "C++ Cơ bản",
+                    description: "Nắm vững cú pháp, cấu trúc điều khiển và hàm",
+                    progress: 80,
+                    modules: [
+                        {
+                            id: 1,
+                            title: "Giới thiệu & thiết lập môi trường",
+                            status: "completed",
+                            level: 1,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Giới thiệu về C++</h3>
+                                <p class="mb-4">C++ là ngôn ngữ lập trình mạnh mẽ, được phát triển từ ngôn ngữ C. Nó kết hợp lập trình hướng đối tượng với lập trình hệ thống, cho phép xây dựng các ứng dụng hiệu năng cao.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Lịch sử phát triển</h4>
+                                <p class="mb-4">C++ được Bjarne Stroustrup phát triển tại Bell Labs vào năm 1979. Ban đầu có tên "C with Classes", sau đó đổi tên thành C++ vào năm 1983.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ứng dụng của C++</h4>
+                                <ul class="list-disc pl-5 mb-4 space-y-2">
+                                    <li>Hệ điều hành (Windows, Linux)</li>
+                                    <li>Trình duyệt web (Chrome, Firefox)</li>
+                                    <li>Game (Unreal Engine, Unity)</li>
+                                    <li>Hệ thống nhúng và IoT</li>
+                                    <li>Ứng dụng tài chính và giao dịch</li>
+                                </ul>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Thiết lập môi trường</h4>
+                                <p class="mb-4">Để lập trình C++, bạn cần cài đặt một trình biên dịch (compiler) và một môi trường phát triển (IDE).</p>
+                                
+                                <h5 class="font-bold text-gray-800 mb-2">Trình biên dịch phổ biến:</h5>
+                                <ul class="list-disc pl-5 mb-4 space-y-2">
+                                    <li>GCC (GNU Compiler Collection)</li>
+                                    <li>Clang</li>
+                                    <li>Microsoft Visual C++</li>
+                                </ul>
+                                
+                                <h5 class="font-bold text-gray-800 mb-2">IDE phổ biến:</h5>
+                                <ul class="list-disc pl-5 mb-4 space-y-2">
+                                    <li>Visual Studio (Windows)</li>
+                                    <li>Code::Blocks (Đa nền tảng)</li>
+                                    <li>CLion (JetBrains)</li>
+                                    <li>Eclipse với plugin CDT</li>
+                                </ul>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Chương trình C++ đầu tiên</h4>
+                                <p class="mb-4">Dưới đây là chương trình "Hello World" trong C++:</p>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
 using namespace std;
 
 int main() {
     cout &lt;&lt; "Hello, World!" &lt;&lt; endl;
     return 0;
 }</code></pre>
-                    </div>
-                    
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Giải thích</h4>
-                    <ul class="list-disc pl-5 mb-4 space-y-2">
-                        <li><code>#include &lt;iostream&gt;</code>: Thư viện nhập/xuất chuẩn của C++</li>
-                        <li><code>using namespace std</code>: Sử dụng không gian tên std để không cần gọi std::</li>
-                        <li><code>int main()</code>: Hàm chính, điểm bắt đầu của chương trình</li>
-                        <li><code>cout</code>: Đối tượng xuất dữ liệu ra màn hình</li>
-                        <li><code>return 0</code>: Kết thúc chương trình với mã thành công</li>
-                    </ul>
-                `,
-                exercises: [
-                    {
-                        id: 1,
-                        type: "quiz",
-                        question: "Hàm nào là hàm chính trong chương trình C++?",
-                        options: [
-                            "start()",
-                            "main()",
-                            "begin()",
-                            "run()"
-                        ],
-                        correctAnswer: 1
-                    },
-                    {
-                        id: 2,
-                        type: "code",
-                        question: "Viết chương trình in ra dòng chữ 'Xin chào C++'",
-                        initialCode: `#include <iostream>\nusing namespace std;\n\nint main() {\n    // Viết code của bạn ở đây\n    \n    return 0;\n}`,
-                        testCases: [
-                            { input: "", expectedOutput: "Xin chào C++" }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 2,
-                title: "Biến và kiểu dữ liệu",
-                status: "in-progress",
-                content: `
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Biến trong C++</h3>
-                    <p class="mb-4">Biến là vùng nhớ được đặt tên, dùng để lưu trữ dữ liệu. Mỗi biến có một kiểu dữ liệu xác định.</p>
-                    
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Khai báo biến</h4>
-                    <div class="code-editor mb-4">
-                        <pre><code>// Khai báo biến
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Giải thích</h4>
+                                <ul class="list-disc pl-5 mb-4 space-y-2">
+                                    <li><code>#include &lt;iostream&gt;</code>: Thư viện nhập/xuất chuẩn của C++</li>
+                                    <li><code>using namespace std</code>: Sử dụng không gian tên std để không cần gọi std::</li>
+                                    <li><code>int main()</code>: Hàm chính, điểm bắt đầu của chương trình</li>
+                                    <li><code>cout</code>: Đối tượng xuất dữ liệu ra màn hình</li>
+                                    <li><code>return 0</code>: Kết thúc chương trình với mã thành công</li>
+                                </ul>
+                            `,
+                            exercises: [
+                                {
+                                    id: 1,
+                                    type: "quiz",
+                                    question: "Ai là người phát triển ngôn ngữ C++?",
+                                    options: [
+                                        "Dennis Ritchie",
+                                        "Bjarne Stroustrup",
+                                        "James Gosling",
+                                        "Guido van Rossum"
+                                    ],
+                                    correctAnswer: 1,
+                                    explanation: "Bjarne Stroustrup bắt đầu phát triển C++ (khi đó có tên 'C with Classes') tại Bell Labs vào năm 1979."
+                                },
+                                {
+                                    id: 2,
+                                    type: "code",
+                                    question: "Viết chương trình in ra dòng chữ 'Xin chào C++'",
+                                    initialCode: `#include <iostream>
+using namespace std;
+
+int main() {
+    // Viết code của bạn ở đây
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "", expectedOutput: "Xin chào C++" }
+                                    ]
+                                }
+                            ],
+                            quiz: [
+                                {
+                                    question: "C++ được phát triển dựa trên ngôn ngữ nào?",
+                                    options: ["Java", "Python", "C", "Pascal"],
+                                    correctAnswer: 2
+                                },
+                                {
+                                    question: "Hàm nào là hàm chính trong chương trình C++?",
+                                    options: ["start()", "main()", "begin()", "run()"],
+                                    correctAnswer: 1
+                                },
+                                {
+                                    question: "Dòng code nào dùng để xuất dữ liệu ra màn hình?",
+                                    options: ["printf()", "System.out.println()", "cout", "print()"],
+                                    correctAnswer: 2
+                                }
+                            ]
+                        },
+                        {
+                            id: 2,
+                            title: "Cấu trúc chương trình C++",
+                            status: "completed",
+                            level: 1,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Cấu trúc cơ bản của chương trình C++</h3>
+                                <p class="mb-4">Một chương trình C++ cơ bản bao gồm các phần chính sau:</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">1. Phần khai báo thư viện</h4>
+                                <p class="mb-4">Sử dụng chỉ thị <code>#include</code> để thêm các thư viện cần thiết.</p>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;  // Thư viện nhập/xuất
+#include &lt;string&gt;    // Thư viện xử lý chuỗi
+#include &lt;cmath&gt;     // Thư viện toán học</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">2. Khai báo sử dụng namespace</h4>
+                                <p class="mb-4">Giúp tránh phải viết <code>std::</code> trước mỗi thành phần của thư viện chuẩn.</p>
+                                <pre><code class="language-cpp">using namespace std;</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">3. Hàm main</h4>
+                                <p class="mb-4">Là hàm bắt đầu thực thi chương trình. Mọi chương trình C++ đều phải có hàm main.</p>
+                                <pre><code class="language-cpp">int main() {
+    // Code thực thi
+    return 0;
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">4. Khai báo biến và hằng</h4>
+                                <p class="mb-4">Biến dùng để lưu trữ dữ liệu, hằng là giá trị không thay đổi.</p>
+                                <pre><code class="language-cpp">int age = 25;           // Biến số nguyên
+const float PI = 3.14;  // Hằng số thực</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">5. Các câu lệnh xử lý</h4>
+                                <p class="mb-4">Bao gồm nhập xuất, tính toán, rẽ nhánh, vòng lặp...</p>
+                                <pre><code class="language-cpp">cout &lt;&lt; "Xin chào!";  // Xuất thông báo
+cin &gt;&gt; age;           // Nhập tuổi từ bàn phím</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ hoàn chỉnh</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    string name;
+    int age;
+    
+    cout &lt;&lt; "Nhập tên của bạn: ";
+    cin &gt;&gt; name;
+    
+    cout &lt;&lt; "Nhập tuổi của bạn: ";
+    cin &gt;&gt; age;
+    
+    cout &lt;&lt; "Xin chào " &lt;&lt; name &lt;&lt; ", bạn " &lt;&lt; age &lt;&lt; " tuổi!" &lt;&lt; endl;
+    
+    return 0;
+}</code></pre>
+                            `,
+                            exercises: [
+                                {
+                                    id: 3,
+                                    type: "quiz",
+                                    question: "Chỉ thị nào dùng để thêm thư viện vào chương trình C++?",
+                                    options: [
+                                        "#import",
+                                        "#include",
+                                        "#add",
+                                        "#use"
+                                    ],
+                                    correctAnswer: 1,
+                                    explanation: "Chỉ thị #include được sử dụng để thêm các thư viện vào chương trình C++."
+                                },
+                                {
+                                    id: 4,
+                                    type: "code",
+                                    question: "Viết chương trình nhập tên và tuổi, sau đó in ra lời chào kèm thông tin",
+                                    initialCode: `#include <iostream>
+using namespace std;
+
+int main() {
+    // Viết code của bạn ở đây
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "Nam\n20", expectedOutput: "Xin chào Nam, bạn 20 tuổi!" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            id: 3,
+                            title: "Biến, hằng, kiểu dữ liệu, nhập xuất",
+                            status: "completed",
+                            level: 1,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Biến trong C++</h3>
+                                <p class="mb-4">Biến là vùng nhớ được đặt tên, dùng để lưu trữ dữ liệu. Mỗi biến có một kiểu dữ liệu xác định.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Khai báo biến</h4>
+                                <pre><code class="language-cpp">// Khai báo biến
 int age;
 float salary;
 char grade;
-string name;</code></pre>
-                    </div>
-                    
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Khởi tạo biến</h4>
-                    <div class="code-editor mb-4">
-                        <pre><code>// Khởi tạo biến
+string name;
+bool isActive;</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Khởi tạo biến</h4>
+                                <pre><code class="language-cpp">// Khởi tạo biến
 int age = 25;
 float salary = 1500.50;
 char grade = 'A';
-string name = "Nguyen Van A";</code></pre>
-                    </div>
-                    
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Kiểu dữ liệu cơ bản</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white border border-gray-300">
-                            <thead>
-                                <tr class="bg-gray-100">
-                                    <th class="py-2 px-4 border-b">Kiểu dữ liệu</th>
-                                    <th class="py-2 px-4 border-b">Mô tả</th>
-                                    <th class="py-2 px-4 border-b">Kích thước</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">int</td>
-                                    <td class="py-2 px-4 border-b">Số nguyên</td>
-                                    <td class="py-2 px-4 border-b">4 bytes</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">float</td>
-                                    <td class="py-2 px-4 border-b">Số thực dấu phẩy động</td>
-                                    <td class="py-2 px-4 border-b">4 bytes</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">double</td>
-                                    <td class="py-2 px-4 border-b">Số thực độ chính xác kép</td>
-                                    <td class="py-2 px-4 border-b">8 bytes</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">char</td>
-                                    <td class="py-2 px-4 border-b">Ký tự</td>
-                                    <td class="py-2 px-4 border-b">1 byte</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">bool</td>
-                                    <td class="py-2 px-4 border-b">Giá trị logic (true/false)</td>
-                                    <td class="py-2 px-4 border-b">1 byte</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `,
-                exercises: [
-                    {
-                        id: 3,
-                        type: "quiz",
-                        question: "Kiểu dữ liệu nào dùng để lưu trữ số nguyên?",
-                        options: [
-                            "float",
-                            "int",
-                            "char",
-                            "string"
-                        ],
-                        correctAnswer: 1
-                    },
-                    {
-                        id: 4,
-                        type: "code",
-                        question: "Khai báo và khởi tạo một biến số nguyên có tên 'soNguyen' với giá trị 100",
-                        initialCode: `#include <iostream>\nusing namespace std;\n\nint main() {\n    // Khai báo và khởi tạo biến soNguyen\n    \n    cout << soNguyen << endl;\n    return 0;\n}`,
-                        testCases: [
-                            { input: "", expectedOutput: "100" }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 3,
-                title: "Toán tử và biểu thức",
-                status: "not-started",
-                content: `
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Toán tử trong C++</h3>
-                    <p class="mb-4">C++ cung cấp nhiều loại toán tử để thực hiện các phép toán khác nhau.</p>
-                    
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử số học</h4>
-                    <div class="overflow-x-auto mb-4">
-                        <table class="min-w-full bg-white border border-gray-300">
-                            <thead>
-                                <tr class="bg-gray-100">
-                                    <th class="py-2 px-4 border-b">Toán tử</th>
-                                    <th class="py-2 px-4 border-b">Mô tả</th>
-                                    <th class="py-2 px-4 border-b">Ví dụ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">+</td>
-                                    <td class="py-2 px-4 border-b">Cộng</td>
-                                    <td class="py-2 px-4 border-b">a + b</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">-</td>
-                                    <td class="py-2 px-4 border-b">Trừ</td>
-                                    <td class="py-2 px-4 border-b">a - b</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">*</td>
-                                    <td class="py-2 px-4 border-b">Nhân</td>
-                                    <td class="py-2 px-4 border-b">a * b</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">/</td>
-                                    <td class="py-2 px-4 border-b">Chia</td>
-                                    <td class="py-2 px-4 border-b">a / b</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">%</td>
-                                    <td class="py-2 px-4 border-b">Chia lấy phần dư</td>
-                                    <td class="py-2 px-4 border-b">a % b</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử gán</h4>
-                    <div class="code-editor mb-4">
-                        <pre><code>int a = 10;  // Gán giá trị 10 cho a
+string name = "Nguyen Van A";
+bool isActive = true;</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Hằng số</h4>
+                                <p class="mb-4">Hằng số là giá trị không thay đổi trong suốt chương trình.</p>
+                                <pre><code class="language-cpp">const float PI = 3.14159;
+const int MAX_SIZE = 100;
+const string APP_NAME = "MyApp";</code></pre>
+                                
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Kiểu dữ liệu cơ bản</h3>
+                                <div class="overflow-x-auto mb-4">
+                                    <table class="min-w-full bg-white border border-gray-300">
+                                        <thead>
+                                            <tr class="bg-gray-100">
+                                                <th class="py-2 px-4 border-b">Kiểu dữ liệu</th>
+                                                <th class="py-2 px-4 border-b">Mô tả</th>
+                                                <th class="py-2 px-4 border-b">Kích thước</th>
+                                                <th class="py-2 px-4 border-b">Phạm vi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">int</td>
+                                                <td class="py-2 px-4 border-b">Số nguyên</td>
+                                                <td class="py-2 px-4 border-b">4 bytes</td>
+                                                <td class="py-2 px-4 border-b">-2^31 đến 2^31-1</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">float</td>
+                                                <td class="py-2 px-4 border-b">Số thực dấu phẩy động</td>
+                                                <td class="py-2 px-4 border-b">4 bytes</td>
+                                                <td class="py-2 px-4 border-b">±3.4e±38</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">double</td>
+                                                <td class="py-2 px-4 border-b">Số thực độ chính xác kép</td>
+                                                <td class="py-2 px-4 border-b">8 bytes</td>
+                                                <td class="py-2 px-4 border-b">±1.7e±308</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">char</td>
+                                                <td class="py-2 px-4 border-b">Ký tự</td>
+                                                <td class="py-2 px-4 border-b">1 byte</td>
+                                                <td class="py-2 px-4 border-b">-128 đến 127</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">bool</td>
+                                                <td class="py-2 px-4 border-b">Giá trị logic</td>
+                                                <td class="py-2 px-4 border-b">1 byte</td>
+                                                <td class="py-2 px-4 border-b">true/false</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Nhập xuất dữ liệu</h3>
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Xuất dữ liệu với cout</h4>
+                                <pre><code class="language-cpp">cout &lt;&lt; "Xin chào!" &lt;&lt; endl;
+cout &lt;&lt; "Giá trị của x là: " &lt;&lt; x &lt;&lt; endl;
+cout &lt;&lt; "Tổng: " &lt;&lt; a + b &lt;&lt; endl;</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Nhập dữ liệu với cin</h4>
+                                <pre><code class="language-cpp">int age;
+cout &lt;&lt; "Nhập tuổi: ";
+cin &gt;&gt; age;
+
+string name;
+cout &lt;&lt; "Nhập tên: ";
+cin &gt;&gt; name;  // Chỉ nhập được một từ</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Nhập chuỗi có khoảng trắng</h4>
+                                <pre><code class="language-cpp">string fullName;
+cout &lt;&lt; "Nhập họ tên: ";
+getline(cin, fullName);  // Nhập được cả dòng</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ hoàn chỉnh</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string name;
+    int age;
+    float height;
+    
+    cout &lt;&lt; "Nhập tên của bạn: ";
+    getline(cin, name);
+    
+    cout &lt;&lt; "Nhập tuổi của bạn: ";
+    cin &gt;&gt; age;
+    
+    cout &lt;&lt; "Nhập chiều cao của bạn (m): ";
+    cin &gt;&gt; height;
+    
+    cout &lt;&lt; "\\n=== THÔNG TIN CÁ NHÂN ===" &lt;&lt; endl;
+    cout &lt;&lt; "Họ tên: " &lt;&lt; name &lt;&lt; endl;
+    cout &lt;&lt; "Tuổi: " &lt;&lt; age &lt;&lt; endl;
+    cout &lt;&lt; "Chiều cao: " &lt;&lt; height &lt;&lt; "m" &lt;&lt; endl;
+    
+    return 0;
+}</code></pre>
+                            `,
+                            exercises: [
+                                {
+                                    id: 5,
+                                    type: "quiz",
+                                    question: "Kiểu dữ liệu nào dùng để lưu trữ số nguyên?",
+                                    options: [
+                                        "float",
+                                        "int",
+                                        "char",
+                                        "string"
+                                    ],
+                                    correctAnswer: 1,
+                                    explanation: "Kiểu int (integer) được sử dụng để lưu trữ số nguyên trong C++."
+                                },
+                                {
+                                    id: 6,
+                                    type: "code",
+                                    question: "Viết chương trình tính diện tích hình chữ nhật với chiều dài và chiều rộng nhập từ bàn phím",
+                                    initialCode: `#include <iostream>
+using namespace std;
+
+int main() {
+    // Viết code của bạn ở đây
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "5\n3", expectedOutput: "Diện tích hình chữ nhật là: 15" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            id: 4,
+                            title: "Toán tử, biểu thức",
+                            status: "in-progress",
+                            level: 1,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Toán tử trong C++</h3>
+                                <p class="mb-4">C++ cung cấp nhiều loại toán tử để thực hiện các phép toán khác nhau.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử số học</h4>
+                                <div class="overflow-x-auto mb-4">
+                                    <table class="min-w-full bg-white border border-gray-300">
+                                        <thead>
+                                            <tr class="bg-gray-100">
+                                                <th class="py-2 px-4 border-b">Toán tử</th>
+                                                <th class="py-2 px-4 border-b">Mô tả</th>
+                                                <th class="py-2 px-4 border-b">Ví dụ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">+</td>
+                                                <td class="py-2 px-4 border-b">Cộng</td>
+                                                <td class="py-2 px-4 border-b">a + b</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">-</td>
+                                                <td class="py-2 px-4 border-b">Trừ</td>
+                                                <td class="py-2 px-4 border-b">a - b</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">*</td>
+                                                <td class="py-2 px-4 border-b">Nhân</td>
+                                                <td class="py-2 px-4 border-b">a * b</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">/</td>
+                                                <td class="py-2 px-4 border-b">Chia</td>
+                                                <td class="py-2 px-4 border-b">a / b</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">%</td>
+                                                <td class="py-2 px-4 border-b">Chia lấy phần dư</td>
+                                                <td class="py-2 px-4 border-b">a % b</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">++</td>
+                                                <td class="py-2 px-4 border-b">Tăng 1 đơn vị</td>
+                                                <td class="py-2 px-4 border-b">a++ hoặc ++a</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">--</td>
+                                                <td class="py-2 px-4 border-b">Giảm 1 đơn vị</td>
+                                                <td class="py-2 px-4 border-b">a-- hoặc --a</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử gán</h4>
+                                <pre><code class="language-cpp">int a = 10;  // Gán giá trị 10 cho a
 a += 5;      // Tương đương a = a + 5
 a -= 3;      // Tương đương a = a - 3
 a *= 2;      // Tương đương a = a * 2
 a /= 4;      // Tương đương a = a / 4
 a %= 3;      // Tương đương a = a % 3</code></pre>
-                    </div>
-                    
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử so sánh</h4>
-                    <div class="code-editor mb-4">
-                        <pre><code>int a = 5, b = 10;
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử so sánh</h4>
+                                <pre><code class="language-cpp">int a = 5, b = 10;
 bool result;
 
 result = (a == b);  // false
@@ -478,54 +977,386 @@ result = (a < b);   // true
 result = (a > b);   // false
 result = (a <= b);  // true
 result = (a >= b);  // false</code></pre>
-                    </div>
-                `,
-                exercises: [
-                    {
-                        id: 5,
-                        type: "quiz",
-                        question: "Toán tử nào dùng để tính phần dư của phép chia?",
-                        options: [
-                            "/",
-                            "%",
-                            "//",
-                            "mod"
-                        ],
-                        correctAnswer: 1
-                    },
-                    {
-                        id: 6,
-                        type: "code",
-                        question: "Viết chương trình tính tổng, hiệu, tích và thương của hai số nguyên a và b",
-                        initialCode: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int a = 15, b = 3;\n    \n    // Tính tổng, hiệu, tích, thương\n    \n    return 0;\n}`,
-                        testCases: [
-                            { input: "", expectedOutput: "Tổng: 18\nHiệu: 12\nTích: 45\nThương: 5" }
-                        ]
-                    }
-                ]
-            },
-            // Các mục học khác sẽ được thêm ở đây...
-        ];
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Toán tử logic</h4>
+                                <pre><code class="language-cpp">bool x = true, y = false;
+bool result;
+
+result = x && y;   // AND: false
+result = x || y;   // OR: true
+result = !x;       // NOT: false</code></pre>
+                                
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Biểu thức</h3>
+                                <p class="mb-4">Biểu thức là sự kết hợp của các toán hạng và toán tử. Kết quả của biểu thức có thể được gán cho biến.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ về biểu thức</h4>
+                                <pre><code class="language-cpp">int a = 5, b = 3, c = 2;
+int result;
+
+result = a + b * c;        // 5 + (3 * 2) = 11
+result = (a + b) * c;      // (5 + 3) * 2 = 16
+result = a % b + c;        // 5 % 3 + 2 = 2 + 2 = 4
+
+bool isEven = (a % 2 == 0);  // false
+bool isPositive = (a > 0);   // true</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Độ ưu tiên của toán tử</h4>
+                                <p class="mb-4">Các toán tử có độ ưu tiên khác nhau. Toán tử có độ ưu tiên cao hơn sẽ được thực hiện trước.</p>
+                                <ol class="list-decimal pl-5 mb-4 space-y-2">
+                                    <li>() - Dấu ngoặc</li>
+                                    <li>++, -- - Tăng/giảm</li>
+                                    <li>*, /, % - Nhân, chia, phần dư</li>
+                                    <li>+, - - Cộng, trừ</li>
+                                    <li>&lt;, &lt;=, >, >= - So sánh</li>
+                                    <li>==, != - So sánh bằng</li>
+                                    <li>&& - AND logic</li>
+                                    <li>|| - OR logic</li>
+                                    <li>= - Gán</li>
+                                </ol>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ hoàn chỉnh</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a, b;
+    
+    cout &lt;&lt; "Nhập số thứ nhất: ";
+    cin &gt;&gt; a;
+    
+    cout &lt;&lt; "Nhập số thứ hai: ";
+    cin &gt;&gt; b;
+    
+    cout &lt;&lt; "\\n=== KẾT QUẢ TÍNH TOÁN ===" &lt;&lt; endl;
+    cout &lt;&lt; a &lt;&lt; " + " &lt;&lt; b &lt;&lt; " = " &lt;&lt; a + b &lt;&lt; endl;
+    cout &lt;&lt; a &lt;&lt; " - " &lt;&lt; b &lt;&lt; " = " &lt;&lt; a - b &lt;&lt; endl;
+    cout &lt;&lt; a &lt;&lt; " * " &lt;&lt; b &lt;&lt; " = " &lt;&lt; a * b &lt;&lt; endl;
+    
+    if (b != 0) {
+        cout &lt;&lt; a &lt;&lt; " / " &lt;&lt; b &lt;&lt; " = " &lt;&lt; a / b &lt;&lt; endl;
+        cout &lt;&lt; a &lt;&lt; " % " &lt;&lt; b &lt;&lt; " = " &lt;&lt; a % b &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "Không thể chia cho 0!" &lt;&lt; endl;
+    }
+    
+    return 0;
+}</code></pre>
+                            `,
+                            exercises: [
+                                {
+                                    id: 7,
+                                    type: "quiz",
+                                    question: "Toán tử nào dùng để tính phần dư của phép chia?",
+                                    options: [
+                                        "/",
+                                        "%",
+                                        "//",
+                                        "mod"
+                                    ],
+                                    correctAnswer: 1,
+                                    explanation: "Toán tử % (modulus) được sử dụng để tính phần dư của phép chia trong C++."
+                                },
+                                {
+                                    id: 8,
+                                    type: "code",
+                                    question: "Viết chương trình tính tổng, hiệu, tích và thương của hai số nguyên a và b",
+                                    initialCode: `#include <iostream>
+using namespace std;
+
+int main() {
+    int a, b;
+    
+    // Viết code của bạn ở đây
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "15\n3", expectedOutput: "Tổng: 18\nHiệu: 12\nTích: 45\nThương: 5" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            id: 5,
+                            title: "Cấu trúc rẽ nhánh (if, switch)",
+                            status: "not-started",
+                            level: 1,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Cấu trúc rẽ nhánh trong C++</h3>
+                                <p class="mb-4">Cấu trúc rẽ nhánh cho phép chương trình thực hiện các khối lệnh khác nhau tùy theo điều kiện.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Câu lệnh if</h4>
+                                <p class="mb-4">Thực hiện khối lệnh nếu điều kiện đúng.</p>
+                                <pre><code class="language-cpp">if (điều_kiện) {
+    // Khối lệnh thực hiện nếu điều kiện đúng
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Câu lệnh if-else</h4>
+                                <p class="mb-4">Thực hiện một khối lệnh nếu điều kiện đúng, khối khác nếu điều kiện sai.</p>
+                                <pre><code class="language-cpp">if (điều_kiện) {
+    // Khối lệnh thực hiện nếu điều kiện đúng
+} else {
+    // Khối lệnh thực hiện nếu điều kiện sai
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Câu lệnh if-else if-else</h4>
+                                <p class="mb-4">Kiểm tra nhiều điều kiện liên tiếp.</p>
+                                <pre><code class="language-cpp">if (điều_kiện_1) {
+    // Khối lệnh thực hiện nếu điều kiện 1 đúng
+} else if (điều_kiện_2) {
+    // Khối lệnh thực hiện nếu điều kiện 2 đúng
+} else {
+    // Khối lệnh thực hiện nếu tất cả điều kiện sai
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ với if</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int age;
+    
+    cout &lt;&lt; "Nhập tuổi của bạn: ";
+    cin &gt;&gt; age;
+    
+    if (age >= 18) {
+        cout &lt;&lt; "Bạn đã trưởng thành!" &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "Bạn chưa trưởng thành!" &lt;&lt; endl;
+    }
+    
+    return 0;
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ với if-else if-else</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int score;
+    
+    cout &lt;&lt; "Nhập điểm của bạn: ";
+    cin &gt;&gt; score;
+    
+    if (score >= 90) {
+        cout &lt;&lt; "Xếp loại: Xuất sắc" &lt;&lt; endl;
+    } else if (score >= 80) {
+        cout &lt;&lt; "Xếp loại: Giỏi" &lt;&lt; endl;
+    } else if (score >= 70) {
+        cout &lt;&lt; "Xếp loại: Khá" &lt;&lt; endl;
+    } else if (score >= 50) {
+        cout &lt;&lt; "Xếp loại: Trung bình" &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "Xếp loại: Yếu" &lt;&lt; endl;
+    }
+    
+    return 0;
+}</code></pre>
+                                
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Câu lệnh switch</h3>
+                                <p class="mb-4">Sử dụng khi có nhiều trường hợp cần xử lý dựa trên giá trị của một biến.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Cú pháp switch</h4>
+                                <pre><code class="language-cpp">switch (biểu_thức) {
+    case giá_trị_1:
+        // Khối lệnh thực hiện nếu biểu_thức = giá_trị_1
+        break;
+    case giá_trị_2:
+        // Khối lệnh thực hiện nếu biểu_thức = giá_trị_2
+        break;
+    // ...
+    default:
+        // Khối lệnh thực hiện nếu không có case nào khớp
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ với switch</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int day;
+    
+    cout &lt;&lt; "Nhập số thứ tự ngày trong tuần (1-7): ";
+    cin &gt;&gt; day;
+    
+    switch (day) {
+        case 1:
+            cout &lt;&lt; "Chủ Nhật" &lt;&lt; endl;
+            break;
+        case 2:
+            cout &lt;&lt; "Thứ Hai" &lt;&lt; endl;
+            break;
+        case 3:
+            cout &lt;&lt; "Thứ Ba" &lt;&lt; endl;
+            break;
+        case 4:
+            cout &lt;&lt; "Thứ Tư" &lt;&lt; endl;
+            break;
+        case 5:
+            cout &lt;&lt; "Thứ Năm" &lt;&lt; endl;
+            break;
+        case 6:
+            cout &lt;&lt; "Thứ Sáu" &lt;&lt; endl;
+            break;
+        case 7:
+            cout &lt;&lt; "Thứ Bảy" &lt;&lt; endl;
+            break;
+        default:
+            cout &lt;&lt; "Số không hợp lệ!" &lt;&lt; endl;
+    }
+    
+    return 0;
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Lưu ý khi sử dụng switch</h4>
+                                <ul class="list-disc pl-5 mb-4 space-y-2">
+                                    <li>Biểu thức trong switch phải là kiểu nguyên (int, char, enum)</li>
+                                    <li>Mỗi case cần có lệnh break để thoát khỏi switch</li>
+                                    <li>Không có break, chương trình sẽ chạy tiếp các case sau</li>
+                                    <li>Case default là tùy chọn, thực hiện khi không có case nào khớp</li>
+                                </ul>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ hoàn chỉnh</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    char operator_;
+    double num1, num2, result;
+    
+    cout &lt;&lt; "Nhập phép tính (+, -, *, /): ";
+    cin &gt;&gt; operator_;
+    
+    cout &lt;&lt; "Nhập hai số: ";
+    cin &gt;&gt; num1 &gt;&gt; num2;
+    
+    switch (operator_) {
+        case '+':
+            result = num1 + num2;
+            cout &lt;&lt; num1 &lt;&lt; " + " &lt;&lt; num2 &lt;&lt; " = " &lt;&lt; result &lt;&lt; endl;
+            break;
+        case '-':
+            result = num1 - num2;
+            cout &lt;&lt; num1 &lt;&lt; " - " &lt;&lt; num2 &lt;&lt; " = " &lt;&lt; result &lt;&lt; endl;
+            break;
+        case '*':
+            result = num1 * num2;
+            cout &lt;&lt; num1 &lt;&lt; " * " &lt;&lt; num2 &lt;&lt; " = " &lt;&lt; result &lt;&lt; endl;
+            break;
+        case '/':
+            if (num2 != 0) {
+                result = num1 / num2;
+                cout &lt;&lt; num1 &lt;&lt; " / " &lt;&lt; num2 &lt;&lt; " = " &lt;&lt; result &lt;&lt; endl;
+            } else {
+                cout &lt;&lt; "Lỗi: Không thể chia cho 0!" &lt;&lt; endl;
+            }
+            break;
+        default:
+            cout &lt;&lt; "Phép tính không hợp lệ!" &lt;&lt; endl;
+    }
+    
+    return 0;
+}</code></pre>
+                            `,
+                            exercises: [
+                                {
+                                    id: 9,
+                                    type: "quiz",
+                                    question: "Câu lệnh nào được sử dụng khi có nhiều trường hợp cần xử lý dựa trên giá trị của một biến?",
+                                    options: [
+                                        "if",
+                                        "if-else",
+                                        "switch",
+                                        "for"
+                                    ],
+                                    correctAnswer: 2,
+                                    explanation: "Câu lệnh switch được sử dụng khi có nhiều trường hợp cần xử lý dựa trên giá trị của một biến."
+                                },
+                                {
+                                    id: 10,
+                                    type: "code",
+                                    question: "Viết chương trình kiểm tra số chẵn hay lẻ",
+                                    initialCode: `#include <iostream>
+using namespace std;
+
+int main() {
+    int number;
+    
+    // Viết code của bạn ở đây
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "4", expectedOutput: "4 là số chẵn" },
+                                        { input: "7", expectedOutput: "7 là số lẻ" }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "C++ Trung cấp",
+                    description: "Mảng, chuỗi, con trỏ và xử lý file",
+                    progress: 40,
+                    modules: [
+                        // Các module của cấp độ 2 sẽ được thêm ở đây
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "OOP trong C++",
+                    description: "Lập trình hướng đối tượng chuyên sâu",
+                    progress: 20,
+                    modules: [
+                        // Các module của cấp độ 3 sẽ được thêm ở đây
+                    ]
+                },
+                {
+                    id: 4,
+                    name: "CTDL & Giải thuật",
+                    description: "Cấu trúc dữ liệu và thuật toán nâng cao",
+                    progress: 10,
+                    modules: [
+                        // Các module của cấp độ 4 sẽ được thêm ở đây
+                    ]
+                },
+                {
+                    id: 5,
+                    name: "C++ Nâng cao",
+                    description: "Dự án thực tế và tối ưu hiệu năng",
+                    progress: 5,
+                    modules: [
+                        // Các module của cấp độ 5 sẽ được thêm ở đây
+                    ]
+                }
+            ]
+        };
 
         // Khởi tạo ứng dụng
         document.addEventListener('DOMContentLoaded', function() {
             // Khởi tạo dữ liệu trong localStorage nếu chưa có
-            if (!localStorage.getItem('cpp-course-progress')) {
+            if (!localStorage.getItem('cpp-master-progress')) {
                 const initialProgress = {
-                    completedModules: [1],
+                    completedModules: [1, 2, 3],
                     moduleStatus: {
                         1: 'completed',
-                        2: 'in-progress',
-                        3: 'not-started'
+                        2: 'completed',
+                        3: 'completed',
+                        4: 'in-progress',
+                        5: 'not-started'
                     },
                     exerciseScores: {
-                        1: 10, // Bài tập 1 được chấm 10 điểm
-                        2: 8   // Bài tập 2 được chấm 8 điểm
+                        1: 10, 2: 8, 3: 10, 4: 9, 5: 10, 6: 8, 7: 10, 8: 9
                     },
-                    totalScore: 18,
-                    averageScore: 9.0
+                    quizScores: {},
+                    totalScore: 84,
+                    averageScore: 8.4,
+                    currentLevel: 1,
+                    badges: ['beginner']
                 };
-                localStorage.setItem('cpp-course-progress', JSON.stringify(initialProgress));
+                localStorage.setItem('cpp-master-progress', JSON.stringify(initialProgress));
             }
 
             // Hiển thị danh sách mục học
@@ -537,12 +1368,18 @@ result = (a >= b);  // false</code></pre>
             // Xử lý sự kiện
             document.getElementById('start-learning').addEventListener('click', showModuleList);
             document.getElementById('module-exercises-btn').addEventListener('click', showExercises);
+            document.getElementById('module-quiz-btn').addEventListener('click', showQuiz);
             document.getElementById('submit-exercises').addEventListener('click', submitExercises);
+            document.getElementById('submit-quiz').addEventListener('click', submitQuiz);
             document.getElementById('back-to-module').addEventListener('click', showCurrentModule);
+            document.getElementById('back-from-quiz').addEventListener('click', showCurrentModule);
             document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
             
             // Hiển thị trang chủ mặc định
             showHomePage();
+            
+            // Khởi tạo highlight.js
+            hljs.highlightAll();
         });
 
         // Hiển thị danh sách mục học trong sidebar
@@ -555,7 +1392,7 @@ result = (a >= b);  // false</code></pre>
             homeItem.className = 'module-item p-3 rounded-lg cursor-pointer active-module';
             homeItem.innerHTML = `
                 <div class="flex items-center">
-                    <i class="fas fa-home text-primary mr-3"></i>
+                    <i class="fas fa-home text-primary-500 mr-3"></i>
                     <span class="font-medium">Trang chủ</span>
                 </div>
             `;
@@ -567,34 +1404,55 @@ result = (a >= b);  // false</code></pre>
             progressItem.className = 'module-item p-3 rounded-lg cursor-pointer';
             progressItem.innerHTML = `
                 <div class="flex items-center">
-                    <i class="fas fa-chart-line text-primary mr-3"></i>
+                    <i class="fas fa-chart-line text-primary-500 mr-3"></i>
                     <span class="font-medium">Bảng tiến độ</span>
                 </div>
             `;
             progressItem.addEventListener('click', showProgressPage);
             moduleList.appendChild(progressItem);
             
-            // Thêm các mục học
-            courseModules.forEach(module => {
-                const moduleItem = document.createElement('li');
-                moduleItem.className = `module-item p-3 rounded-lg cursor-pointer ${module.id === 2 ? 'active-module' : ''}`;
+            // Thêm mục "Bảng xếp hạng"
+            const leaderboardItem = document.createElement('li');
+            leaderboardItem.className = 'module-item p-3 rounded-lg cursor-pointer';
+            leaderboardItem.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-trophy text-primary-500 mr-3"></i>
+                    <span class="font-medium">Bảng xếp hạng</span>
+                </div>
+            `;
+            leaderboardItem.addEventListener('click', showLeaderboardPage);
+            moduleList.appendChild(leaderboardItem);
+            
+            // Thêm các cấp độ và mục học
+            courseData.levels.forEach(level => {
+                // Thêm tiêu đề cấp độ
+                const levelHeader = document.createElement('li');
+                levelHeader.className = 'px-3 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider';
+                levelHeader.textContent = `Cấp độ ${level.id}: ${level.name}`;
+                moduleList.appendChild(levelHeader);
                 
-                let statusIcon = '❌';
-                if (module.status === 'completed') statusIcon = '✅';
-                else if (module.status === 'in-progress') statusIcon = '⏳';
-                
-                moduleItem.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <i class="fas fa-book text-gray-500 mr-3"></i>
-                            <span class="font-medium">${module.title}</span>
+                // Thêm các mục học của cấp độ
+                level.modules.forEach(module => {
+                    const moduleItem = document.createElement('li');
+                    moduleItem.className = `module-item p-3 rounded-lg cursor-pointer ${module.id === 4 ? 'active-module' : ''}`;
+                    
+                    let statusIcon = '❌';
+                    if (module.status === 'completed') statusIcon = '✅';
+                    else if (module.status === 'in-progress') statusIcon = '⏳';
+                    
+                    moduleItem.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-book text-gray-500 mr-3"></i>
+                                <span class="font-medium">${module.title}</span>
+                            </div>
+                            <span>${statusIcon}</span>
                         </div>
-                        <span>${statusIcon}</span>
-                    </div>
-                `;
-                
-                moduleItem.addEventListener('click', () => showModule(module.id));
-                moduleList.appendChild(moduleItem);
+                    `;
+                    
+                    moduleItem.addEventListener('click', () => showModule(module.id));
+                    moduleList.appendChild(moduleItem);
+                });
             });
         }
 
@@ -603,7 +1461,9 @@ result = (a >= b);  // false</code></pre>
             document.getElementById('home-page').classList.remove('hidden');
             document.getElementById('module-page').classList.add('hidden');
             document.getElementById('exercises-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.add('hidden');
             document.getElementById('progress-page').classList.add('hidden');
+            document.getElementById('leaderboard-page').classList.add('hidden');
             
             // Cập nhật lớp active trong sidebar
             updateActiveSidebarItem(0);
@@ -621,18 +1481,45 @@ result = (a >= b);  // false</code></pre>
             document.getElementById('home-page').classList.add('hidden');
             document.getElementById('module-page').classList.remove('hidden');
             document.getElementById('exercises-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.add('hidden');
             document.getElementById('progress-page').classList.add('hidden');
+            document.getElementById('leaderboard-page').classList.add('hidden');
             
-            const module = courseModules.find(m => m.id === moduleId);
+            let module = null;
+            let levelName = "";
+            
+            // Tìm mục học trong dữ liệu
+            for (const level of courseData.levels) {
+                const foundModule = level.modules.find(m => m.id === moduleId);
+                if (foundModule) {
+                    module = foundModule;
+                    levelName = `Cấp độ ${level.id}: ${level.name}`;
+                    break;
+                }
+            }
+            
             if (module) {
+                document.getElementById('module-level').textContent = levelName;
                 document.getElementById('module-title').textContent = module.title;
                 document.getElementById('module-content').innerHTML = module.content;
                 
+                // Hiển thị nút kiểm tra nhanh nếu có quiz
+                const quizBtn = document.getElementById('module-quiz-btn');
+                if (module.quiz && module.quiz.length > 0) {
+                    quizBtn.classList.remove('hidden');
+                } else {
+                    quizBtn.classList.add('hidden');
+                }
+                
                 // Lưu mục hiện tại
                 currentModuleId = moduleId;
+                currentModule = module;
                 
                 // Cập nhật lớp active trong sidebar
                 updateActiveSidebarItem(moduleId);
+                
+                // Làm nổi bật code
+                hljs.highlightAll();
             }
         }
 
@@ -648,12 +1535,47 @@ result = (a >= b);  // false</code></pre>
             document.getElementById('home-page').classList.add('hidden');
             document.getElementById('module-page').classList.add('hidden');
             document.getElementById('exercises-page').classList.remove('hidden');
+            document.getElementById('quiz-page').classList.add('hidden');
             document.getElementById('progress-page').classList.add('hidden');
+            document.getElementById('leaderboard-page').classList.add('hidden');
             
-            const module = courseModules.find(m => m.id === currentModuleId);
-            if (module) {
-                document.getElementById('exercises-title').textContent = `Bài tập: ${module.title}`;
-                renderExercises(module.exercises);
+            if (currentModule) {
+                let levelName = "";
+                for (const level of courseData.levels) {
+                    if (level.modules.find(m => m.id === currentModuleId)) {
+                        levelName = `Cấp độ ${level.id}: ${level.name}`;
+                        break;
+                    }
+                }
+                
+                document.getElementById('exercises-level').textContent = levelName;
+                document.getElementById('exercises-title').textContent = `Bài tập: ${currentModule.title}`;
+                renderExercises(currentModule.exercises);
+            }
+        }
+
+        // Hiển thị trang kiểm tra nhanh
+        function showQuiz() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('module-page').classList.add('hidden');
+            document.getElementById('exercises-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.remove('hidden');
+            document.getElementById('progress-page').classList.add('hidden');
+            document.getElementById('leaderboard-page').classList.add('hidden');
+            
+            if (currentModule && currentModule.quiz) {
+                let levelName = "";
+                for (const level of courseData.levels) {
+                    if (level.modules.find(m => m.id === currentModuleId)) {
+                        levelName = `Cấp độ ${level.id}: ${level.name}`;
+                        break;
+                    }
+                }
+                
+                document.getElementById('quiz-level').textContent = levelName;
+                document.getElementById('quiz-title').textContent = `Kiểm tra nhanh: ${currentModule.title}`;
+                document.getElementById('quiz-total').textContent = currentModule.quiz.length;
+                renderQuiz(currentModule.quiz);
             }
         }
 
@@ -662,12 +1584,27 @@ result = (a >= b);  // false</code></pre>
             document.getElementById('home-page').classList.add('hidden');
             document.getElementById('module-page').classList.add('hidden');
             document.getElementById('exercises-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.add('hidden');
             document.getElementById('progress-page').classList.remove('hidden');
+            document.getElementById('leaderboard-page').classList.add('hidden');
             
             updateProgressBoard();
             
             // Cập nhật lớp active trong sidebar
             updateActiveSidebarItem(-1);
+        }
+
+        // Hiển thị trang bảng xếp hạng
+        function showLeaderboardPage() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('module-page').classList.add('hidden');
+            document.getElementById('exercises-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.add('hidden');
+            document.getElementById('progress-page').classList.add('hidden');
+            document.getElementById('leaderboard-page').classList.remove('hidden');
+            
+            // Cập nhật lớp active trong sidebar
+            updateActiveSidebarItem(-2);
         }
 
         // Hiển thị bài tập
@@ -709,6 +1646,16 @@ result = (a >= b);  // false</code></pre>
                 `;
                 container.appendChild(optionElement);
             });
+            
+            // Thêm phần giải thích (sẽ hiển thị sau khi nộp bài)
+            const explanationElement = document.createElement('div');
+            explanationElement.className = 'mt-3 p-3 bg-blue-50 rounded-lg hidden';
+            explanationElement.id = `explanation-${exercise.id}`;
+            explanationElement.innerHTML = `
+                <h4 class="font-bold text-blue-800 mb-1">Giải thích:</h4>
+                <p class="text-blue-700">${exercise.explanation}</p>
+            `;
+            container.appendChild(explanationElement);
         }
 
         // Hiển thị bài tập lập trình
@@ -716,7 +1663,7 @@ result = (a >= b);  // false</code></pre>
             const container = document.getElementById(`exercise-${exercise.id}`);
             container.innerHTML = `
                 <div class="code-editor mb-3">
-                    <textarea class="w-full h-40 bg-gray-800 text-white p-3 rounded" id="code-${exercise.id}">${exercise.initialCode}</textarea>
+                    <textarea class="w-full h-40 bg-gray-800 text-white p-3 rounded font-mono" id="code-${exercise.id}">${exercise.initialCode}</textarea>
                 </div>
                 <div class="bg-gray-100 p-3 rounded">
                     <h4 class="font-bold mb-2">Kết quả mong đợi:</h4>
@@ -725,15 +1672,111 @@ result = (a >= b);  // false</code></pre>
             `;
         }
 
+        // Hiển thị bài kiểm tra nhanh
+        function renderQuiz(quizQuestions) {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            currentQuiz = {
+                questions: quizQuestions,
+                currentQuestion: 0,
+                answers: new Array(quizQuestions.length)
+            };
+            
+            renderQuizQuestion(0);
+        }
+
+        // Hiển thị câu hỏi kiểm tra
+        function renderQuizQuestion(questionIndex) {
+            const container = document.getElementById('quiz-container');
+            const question = currentQuiz.questions[questionIndex];
+            
+            container.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">${questionIndex + 1}. ${question.question}</h3>
+                    <div id="quiz-options" class="space-y-3"></div>
+                </div>
+            `;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option p-3 border rounded-lg';
+                optionElement.innerHTML = `
+                    <div class="flex items-center">
+                        <input type="radio" name="quiz-question" value="${index}" class="mr-3">
+                        <span>${option}</span>
+                    </div>
+                `;
+                
+                // Đánh dấu câu trả lời đã chọn (nếu có)
+                if (currentQuiz.answers[questionIndex] === index) {
+                    optionElement.querySelector('input').checked = true;
+                }
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Cập nhật số câu hiện tại
+            document.getElementById('quiz-current').textContent = questionIndex + 1;
+            
+            // Thêm nút điều hướng
+            const navContainer = document.createElement('div');
+            navContainer.className = 'flex justify-between mt-6';
+            
+            if (questionIndex > 0) {
+                const prevButton = document.createElement('button');
+                prevButton.className = 'bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded';
+                prevButton.innerHTML = '<i class="fas fa-arrow-left mr-2"></i>Câu trước';
+                prevButton.addEventListener('click', () => {
+                    saveQuizAnswer(questionIndex);
+                    renderQuizQuestion(questionIndex - 1);
+                });
+                navContainer.appendChild(prevButton);
+            } else {
+                navContainer.appendChild(document.createElement('div')); // Placeholder
+            }
+            
+            if (questionIndex < currentQuiz.questions.length - 1) {
+                const nextButton = document.createElement('button');
+                nextButton.className = 'bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded';
+                nextButton.innerHTML = 'Câu sau<i class="fas fa-arrow-right ml-2"></i>';
+                nextButton.addEventListener('click', () => {
+                    saveQuizAnswer(questionIndex);
+                    renderQuizQuestion(questionIndex + 1);
+                });
+                navContainer.appendChild(nextButton);
+            } else {
+                const nextButton = document.createElement('button');
+                nextButton.className = 'bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded';
+                nextButton.innerHTML = 'Hoàn thành<i class="fas fa-check ml-2"></i>';
+                nextButton.addEventListener('click', () => {
+                    saveQuizAnswer(questionIndex);
+                    // Nút nộp bài sẽ xử lý việc chấm điểm
+                });
+                navContainer.appendChild(nextButton);
+            }
+            
+            container.appendChild(navContainer);
+        }
+
+        // Lưu câu trả lời kiểm tra
+        function saveQuizAnswer(questionIndex) {
+            const selectedOption = document.querySelector('input[name="quiz-question"]:checked');
+            if (selectedOption) {
+                currentQuiz.answers[questionIndex] = parseInt(selectedOption.value);
+            }
+        }
+
         // Nộp bài tập
         function submitExercises() {
-            const module = courseModules.find(m => m.id === currentModuleId);
-            if (!module) return;
+            if (!currentModule) return;
             
             let totalScore = 0;
-            let maxScore = module.exercises.length * 10;
+            let maxScore = currentModule.exercises.length * 10;
+            let allCorrect = true;
             
-            module.exercises.forEach(exercise => {
+            currentModule.exercises.forEach(exercise => {
                 if (exercise.type === 'quiz') {
                     const selectedOption = document.querySelector(`input[name="exercise-${exercise.id}"]:checked`);
                     if (selectedOption && parseInt(selectedOption.value) === exercise.correctAnswer) {
@@ -741,26 +1784,87 @@ result = (a >= b);  // false</code></pre>
                         markQuizAnswer(exercise.id, parseInt(selectedOption.value), true);
                     } else if (selectedOption) {
                         markQuizAnswer(exercise.id, parseInt(selectedOption.value), false);
+                        allCorrect = false;
+                    } else {
+                        allCorrect = false;
                     }
+                    
+                    // Hiển thị giải thích
+                    document.getElementById(`explanation-${exercise.id}`).classList.remove('hidden');
                 } else if (exercise.type === 'code') {
                     // Trong thực tế, chúng ta sẽ gửi code đến API để chấm điểm
                     // Ở đây chúng ta giả lập kết quả
                     const code = document.getElementById(`code-${exercise.id}`).value;
-                    if (code.includes('Xin chào C++') || code.includes('soNguyen = 100') || 
-                        code.includes('Tổng') || code.includes('Hiệu') || code.includes('Tích') || code.includes('Thương')) {
+                    const hasCorrectOutput = checkCodeOutput(code, exercise.testCases[0].expectedOutput);
+                    
+                    if (hasCorrectOutput) {
                         totalScore += 8; // Giả lập điểm
                         markCodeResult(exercise.id, true);
                     } else {
                         markCodeResult(exercise.id, false);
+                        allCorrect = false;
                     }
                 }
             });
             
             // Hiển thị kết quả
-            alert(`Bạn đã hoàn thành bài tập!\nĐiểm số: ${totalScore}/${maxScore}`);
+            const scorePercent = Math.round((totalScore / maxScore) * 100);
+            let message = `Bạn đã hoàn thành bài tập!\nĐiểm số: ${totalScore}/${maxScore} (${scorePercent}%)`;
+            
+            if (allCorrect) {
+                message += "\n🎉 Xuất sắc! Tất cả câu trả lời đều chính xác!";
+            }
+            
+            alert(message);
             
             // Cập nhật tiến độ
-            updateProgressAfterSubmission(module.id, totalScore, maxScore);
+            updateProgressAfterSubmission(currentModule.id, totalScore, maxScore);
+        }
+
+        // Nộp bài kiểm tra nhanh
+        function submitQuiz() {
+            if (!currentQuiz) return;
+            
+            // Đảm bảo lưu câu trả lời cuối cùng
+            saveQuizAnswer(currentQuiz.currentQuestion);
+            
+            let correctCount = 0;
+            currentQuiz.questions.forEach((question, index) => {
+                if (currentQuiz.answers[index] === question.correctAnswer) {
+                    correctCount++;
+                }
+            });
+            
+            const scorePercent = Math.round((correctCount / currentQuiz.questions.length) * 100);
+            let message = `Bạn đã hoàn thành bài kiểm tra!\nKết quả: ${correctCount}/${currentQuiz.questions.length} câu đúng (${scorePercent}%)`;
+            
+            if (scorePercent === 100) {
+                message += "\n🎉 Hoàn hảo! Bạn đã trả lời đúng tất cả các câu!";
+            } else if (scorePercent >= 80) {
+                message += "\n👍 Rất tốt! Bạn nắm vững kiến thức này!";
+            } else if (scorePercent >= 60) {
+                message += "\n😊 Khá tốt! Hãy ôn tập thêm một chút!";
+            } else {
+                message += "\n📚 Hãy xem lại bài học và thử lại!";
+            }
+            
+            alert(message);
+            
+            // Quay lại mục học
+            showCurrentModule();
+        }
+
+        // Kiểm tra kết quả code (giả lập)
+        function checkCodeOutput(code, expectedOutput) {
+            // Trong thực tế, chúng ta sẽ gửi code đến API compiler
+            // Ở đây chúng ta chỉ kiểm tra đơn giản
+            if (code.includes('Xin chào C++') || 
+                code.includes('soNguyen = 100') || 
+                code.includes('Tổng') || code.includes('Hiệu') || code.includes('Tích') || code.includes('Thương') ||
+                code.includes('chẵn') || code.includes('lẻ')) {
+                return true;
+            }
+            return false;
         }
 
         // Đánh dấu kết quả bài tập trắc nghiệm
@@ -788,7 +1892,7 @@ result = (a >= b);  // false</code></pre>
 
         // Cập nhật tiến độ sau khi nộp bài
         function updateProgressAfterSubmission(moduleId, score, maxScore) {
-            const progress = JSON.parse(localStorage.getItem('cpp-course-progress'));
+            const progress = JSON.parse(localStorage.getItem('cpp-master-progress'));
             
             // Đánh dấu mục là đã hoàn thành nếu chưa
             if (!progress.completedModules.includes(moduleId)) {
@@ -799,7 +1903,7 @@ result = (a >= b);  // false</code></pre>
             progress.moduleStatus[moduleId] = 'completed';
             
             // Cập nhật điểm số (giả lập)
-            const module = courseModules.find(m => m.id === moduleId);
+            const module = findModuleById(moduleId);
             module.exercises.forEach(exercise => {
                 progress.exerciseScores[exercise.id] = exercise.type === 'quiz' ? 10 : 8;
             });
@@ -810,34 +1914,38 @@ result = (a >= b);  // false</code></pre>
             progress.averageScore = progress.totalScore / exerciseIds.length;
             
             // Lưu lại
-            localStorage.setItem('cpp-course-progress', JSON.stringify(progress));
+            localStorage.setItem('cpp-master-progress', JSON.stringify(progress));
             
             // Cập nhật giao diện
             updateProgress();
             renderModuleList();
         }
 
+        // Tìm mục học theo ID
+        function findModuleById(moduleId) {
+            for (const level of courseData.levels) {
+                const module = level.modules.find(m => m.id === moduleId);
+                if (module) return module;
+            }
+            return null;
+        }
+
         // Cập nhật tiến độ tổng thể
         function updateProgress() {
-            const progress = JSON.parse(localStorage.getItem('cpp-course-progress'));
+            const progress = JSON.parse(localStorage.getItem('cpp-master-progress'));
             const completedCount = progress.completedModules.length;
-            const totalCount = courseModules.length;
+            const totalCount = courseData.levels.reduce((sum, level) => sum + level.modules.length, 0);
             const percent = Math.round((completedCount / totalCount) * 100);
             
             // Cập nhật thanh tiến trình
-            document.getElementById('overall-progress').style.width = `${percent}%`;
-            document.getElementById('home-progress-bar').style.width = `${percent}%`;
-            
-            // Cập nhật số liệu
-            document.getElementById('progress-percent').textContent = `${percent}%`;
-            document.getElementById('completed-modules').textContent = completedCount;
+            document.getElementById('header-progress').style.width = `${percent}%`;
         }
 
         // Cập nhật bảng tiến độ
         function updateProgressBoard() {
-            const progress = JSON.parse(localStorage.getItem('cpp-course-progress'));
+            const progress = JSON.parse(localStorage.getItem('cpp-master-progress'));
             const completedCount = progress.completedModules.length;
-            const totalCount = courseModules.length;
+            const totalCount = courseData.levels.reduce((sum, level) => sum + level.modules.length, 0);
             const percent = Math.round((completedCount / totalCount) * 100);
             const exerciseCount = Object.keys(progress.exerciseScores).length;
             
@@ -846,51 +1954,49 @@ result = (a >= b);  // false</code></pre>
             document.getElementById('stats-exercises').textContent = exerciseCount;
             document.getElementById('stats-average').textContent = progress.averageScore.toFixed(1);
             document.getElementById('stats-completion').textContent = `${percent}%`;
-            document.getElementById('stats-progress-bar').style.width = `${percent}%`;
             
             // Cập nhật bảng chi tiết
             const tableBody = document.getElementById('progress-table-body');
             tableBody.innerHTML = '';
             
-            courseModules.forEach(module => {
-                const row = document.createElement('tr');
-                
-                let statusText = '❌ Chưa học';
-                let score = '-';
-                let date = '-';
-                
-                if (progress.moduleStatus[module.id] === 'completed') {
-                    statusText = '✅ Hoàn thành';
+            courseData.levels.forEach(level => {
+                level.modules.forEach(module => {
+                    const row = document.createElement('tr');
                     
-                    // Tính điểm trung bình của mục
-                    const moduleExercises = module.exercises;
-                    let moduleScore = 0;
-                    let moduleExerciseCount = 0;
+                    let statusText = '❌ Chưa học';
+                    let score = '-';
                     
-                    moduleExercises.forEach(exercise => {
-                        if (progress.exerciseScores[exercise.id]) {
-                            moduleScore += progress.exerciseScores[exercise.id];
-                            moduleExerciseCount++;
+                    if (progress.moduleStatus[module.id] === 'completed') {
+                        statusText = '✅ Hoàn thành';
+                        
+                        // Tính điểm trung bình của mục
+                        const moduleExercises = module.exercises;
+                        let moduleScore = 0;
+                        let moduleExerciseCount = 0;
+                        
+                        moduleExercises.forEach(exercise => {
+                            if (progress.exerciseScores[exercise.id]) {
+                                moduleScore += progress.exerciseScores[exercise.id];
+                                moduleExerciseCount++;
+                            }
+                        });
+                        
+                        if (moduleExerciseCount > 0) {
+                            score = (moduleScore / moduleExerciseCount).toFixed(1);
                         }
-                    });
-                    
-                    if (moduleExerciseCount > 0) {
-                        score = (moduleScore / moduleExerciseCount).toFixed(1);
+                    } else if (progress.moduleStatus[module.id] === 'in-progress') {
+                        statusText = '⏳ Đang học';
                     }
                     
-                    date = 'Hôm nay';
-                } else if (progress.moduleStatus[module.id] === 'in-progress') {
-                    statusText = '⏳ Đang học';
-                }
-                
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap">${module.title}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${statusText}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${score}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${date}</td>
-                `;
-                
-                tableBody.appendChild(row);
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">${module.title}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${level.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${statusText}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${score}</td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
             });
         }
 
@@ -902,12 +2008,17 @@ result = (a >= b);  // false</code></pre>
                     item.classList.add('active-module');
                 } else if (index === 1 && moduleId === -1) {
                     item.classList.add('active-module');
-                } else if (index > 1) {
-                    const itemModuleId = courseModules[index - 2].id;
-                    if (itemModuleId === moduleId) {
-                        item.classList.add('active-module');
-                    } else {
-                        item.classList.remove('active-module');
+                } else if (index === 2 && moduleId === -2) {
+                    item.classList.add('active-module');
+                } else if (index > 2) {
+                    // Bỏ qua các tiêu đề cấp độ
+                    if (!item.classList.contains('px-3')) {
+                        const itemModuleId = getModuleIdFromItem(item);
+                        if (itemModuleId === moduleId) {
+                            item.classList.add('active-module');
+                        } else {
+                            item.classList.remove('active-module');
+                        }
                     }
                 } else {
                     item.classList.remove('active-module');
@@ -915,18 +2026,30 @@ result = (a >= b);  // false</code></pre>
             });
         }
 
+        // Lấy ID mục học từ phần tử sidebar
+        function getModuleIdFromItem(item) {
+            // Tìm mục học có tiêu đề khớp
+            const title = item.querySelector('.font-medium').textContent;
+            for (const level of courseData.levels) {
+                for (const module of level.modules) {
+                    if (module.title === title) {
+                        return module.id;
+                    }
+                }
+            }
+            return -1;
+        }
+
         // Chuyển đổi chế độ Dark/Light
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
             const icon = document.querySelector('#dark-mode-toggle i');
             if (document.body.classList.contains('dark-mode')) {
-                document.body.classList.add('bg-gray-900');
-                document.body.classList.remove('bg-gray-50');
+                document.body.classList.add('dark-mode');
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
             } else {
-                document.body.classList.remove('bg-gray-900');
-                document.body.classList.add('bg-gray-50');
+                document.body.classList.remove('dark-mode');
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
             }
@@ -934,6 +2057,8 @@ result = (a >= b);  // false</code></pre>
 
         // Biến toàn cục
         let currentModuleId = 1;
+        let currentModule = null;
+        let currentQuiz = null;
     </script>
 </body>
 </html>
