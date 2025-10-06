@@ -123,6 +123,29 @@
         .dark-mode .bg-yellow-50 {
             background-color: rgba(113, 63, 18, 0.3);
         }
+        .exercise-tab {
+            transition: all 0.3s ease;
+        }
+        .exercise-tab.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .test-case {
+            border-left: 4px solid #3b82f6;
+        }
+        .test-case.passed {
+            border-left-color: #10b981;
+        }
+        .test-case.failed {
+            border-left-color: #ef4444;
+        }
+        .floating-action-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -167,6 +190,15 @@
             <div class="bg-white rounded-lg shadow sidebar">
                 <div class="p-4 border-b border-gray-200">
                     <h2 class="font-bold text-lg text-gray-800">Lộ trình học tập</h2>
+                    <div class="mt-2">
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span>Hoàn thành</span>
+                            <span id="sidebar-progress">15%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                            <div class="bg-primary-500 h-2 rounded-full" id="sidebar-progress-bar" style="width: 15%"></div>
+                        </div>
+                    </div>
                 </div>
                 <nav class="p-2">
                     <ul id="module-list" class="space-y-1">
@@ -194,7 +226,7 @@
                 <div class="mt-12">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">5 Cấp độ thành thạo C++</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-level="1">
                             <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
                                 <span class="text-blue-600 font-bold text-xl">1</span>
                             </div>
@@ -204,7 +236,7 @@
                                 <div class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
                             </div>
                         </div>
-                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-level="2">
                             <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
                                 <span class="text-green-600 font-bold text-xl">2</span>
                             </div>
@@ -214,7 +246,7 @@
                                 <div class="bg-green-500 h-2 rounded-full" style="width: 40%"></div>
                             </div>
                         </div>
-                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-level="3">
                             <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
                                 <span class="text-purple-600 font-bold text-xl">3</span>
                             </div>
@@ -224,7 +256,7 @@
                                 <div class="bg-purple-500 h-2 rounded-full" style="width: 20%"></div>
                             </div>
                         </div>
-                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-level="4">
                             <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-100 flex items-center justify-center">
                                 <span class="text-yellow-600 font-bold text-xl">4</span>
                             </div>
@@ -234,7 +266,7 @@
                                 <div class="bg-yellow-500 h-2 rounded-full" style="width: 10%"></div>
                             </div>
                         </div>
-                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center">
+                        <div class="level-card bg-white border border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-level="5">
                             <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
                                 <span class="text-red-600 font-bold text-xl">5</span>
                             </div>
@@ -311,8 +343,16 @@
                     </div>
                 </div>
                 
+                <div class="mb-6 flex space-x-2 border-b" id="exercise-tabs">
+                    <!-- Exercise tabs will be generated here -->
+                </div>
+                
                 <div id="exercises-container">
                     <!-- Exercises will be loaded here -->
+                </div>
+                
+                <div id="exercise-result" class="mt-6 hidden">
+                    <!-- Exercise results will be shown here -->
                 </div>
             </div>
 
@@ -540,6 +580,22 @@
         </main>
     </div>
 
+    <!-- Floating Action Button -->
+    <button id="fab" class="floating-action-button bg-primary-500 hover:bg-primary-600 text-white w-14 h-14 rounded-full flex items-center justify-center transition duration-300">
+        <i class="fas fa-bars text-xl"></i>
+    </button>
+
+    <!-- Quick Actions Menu -->
+    <div id="quick-actions" class="fixed bottom-20 right-6 bg-white rounded-lg shadow-lg p-4 hidden z-40 w-48">
+        <h3 class="font-bold text-gray-800 mb-2">Truy cập nhanh</h3>
+        <ul class="space-y-2">
+            <li><a href="#" class="flex items-center text-gray-700 hover:text-primary-600" id="quick-home"><i class="fas fa-home mr-2"></i> Trang chủ</a></li>
+            <li><a href="#" class="flex items-center text-gray-700 hover:text-primary-600" id="quick-progress"><i class="fas fa-chart-line mr-2"></i> Tiến độ</a></li>
+            <li><a href="#" class="flex items-center text-gray-700 hover:text-primary-600" id="quick-leaderboard"><i class="fas fa-trophy mr-2"></i> Xếp hạng</a></li>
+            <li><a href="#" class="flex items-center text-gray-700 hover:text-primary-600" id="quick-exercises"><i class="fas fa-pencil-alt mr-2"></i> Bài tập</a></li>
+        </ul>
+    </div>
+
     <script>
         // Dữ liệu mẫu cho các mục học
         const courseData = {
@@ -636,7 +692,8 @@ int main() {
 }`,
                                     testCases: [
                                         { input: "", expectedOutput: "Xin chào C++" }
-                                    ]
+                                    ],
+                                    hint: "Sử dụng cout để in ra màn hình. Ví dụ: cout << \"Hello\";"
                                 }
                             ],
                             quiz: [
@@ -740,7 +797,8 @@ int main() {
 }`,
                                     testCases: [
                                         { input: "Nam\n20", expectedOutput: "Xin chào Nam, bạn 20 tuổi!" }
-                                    ]
+                                    ],
+                                    hint: "Sử dụng cin để nhập dữ liệu và cout để xuất dữ liệu. Nhớ khai báo biến cho tên và tuổi."
                                 }
                             ]
                         },
@@ -896,7 +954,8 @@ int main() {
 }`,
                                     testCases: [
                                         { input: "5\n3", expectedOutput: "Diện tích hình chữ nhật là: 15" }
-                                    ]
+                                    ],
+                                    hint: "Sử dụng công thức diện tích = chiều dài * chiều rộng. Nhớ khai báo biến cho chiều dài và chiều rộng."
                                 }
                             ]
                         },
@@ -1072,7 +1131,8 @@ int main() {
 }`,
                                     testCases: [
                                         { input: "15\n3", expectedOutput: "Tổng: 18\nHiệu: 12\nTích: 45\nThương: 5" }
-                                    ]
+                                    ],
+                                    hint: "Sử dụng các toán tử +, -, *, / để tính toán. Nhớ kiểm tra trường hợp chia cho 0."
                                 }
                             ]
                         },
@@ -1289,7 +1349,8 @@ int main() {
                                     testCases: [
                                         { input: "4", expectedOutput: "4 là số chẵn" },
                                         { input: "7", expectedOutput: "7 là số lẻ" }
-                                    ]
+                                    ],
+                                    hint: "Sử dụng toán tử % để kiểm tra số chẵn lẻ. Số chẵn chia 2 dư 0, số lẻ chia 2 dư 1."
                                 }
                             ]
                         }
@@ -1301,7 +1362,258 @@ int main() {
                     description: "Mảng, chuỗi, con trỏ và xử lý file",
                     progress: 40,
                     modules: [
-                        // Các module của cấp độ 2 sẽ được thêm ở đây
+                        {
+                            id: 6,
+                            title: "Mảng 1D, 2D",
+                            status: "in-progress",
+                            level: 2,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Mảng trong C++</h3>
+                                <p class="mb-4">Mảng là cấu trúc dữ liệu cho phép lưu trữ nhiều phần tử cùng kiểu trong một biến duy nhất.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Mảng một chiều (1D)</h4>
+                                <p class="mb-4">Khai báo và khởi tạo mảng một chiều:</p>
+                                <pre><code class="language-cpp">// Khai báo mảng
+int numbers[5];
+
+// Khởi tạo mảng
+int numbers[5] = {1, 2, 3, 4, 5};
+
+// Truy cập phần tử
+numbers[0] = 10;  // Gán giá trị 10 cho phần tử đầu tiên
+cout &lt;&lt; numbers[2];  // In phần tử thứ 3 (giá trị 3)</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Mảng hai chiều (2D)</h4>
+                                <p class="mb-4">Mảng hai chiều giống như một bảng có hàng và cột.</p>
+                                <pre><code class="language-cpp">// Khai báo mảng 2D
+int matrix[3][3];
+
+// Khởi tạo mảng 2D
+int matrix[2][3] = {
+    {1, 2, 3},
+    {4, 5, 6}
+};
+
+// Truy cập phần tử
+matrix[0][1] = 10;  // Gán giá trị 10 cho hàng 0, cột 1
+cout &lt;&lt; matrix[1][2];  // In phần tử hàng 1, cột 2 (giá trị 6)</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ với mảng 1D</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int n;
+    
+    cout &lt;&lt; "Nhập số phần tử của mảng: ";
+    cin &gt;&gt; n;
+    
+    int arr[n];
+    
+    // Nhập mảng
+    for (int i = 0; i &lt; n; i++) {
+        cout &lt;&lt; "Nhập phần tử thứ " &lt;&lt; i &lt;&lt; ": ";
+        cin &gt;&gt; arr[i];
+    }
+    
+    // In mảng
+    cout &lt;&lt; "Mảng vừa nhập: ";
+    for (int i = 0; i &lt; n; i++) {
+        cout &lt;&lt; arr[i] &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+    
+    return 0;
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ với mảng 2D</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int rows, cols;
+    
+    cout &lt;&lt; "Nhập số hàng: ";
+    cin &gt;&gt; rows;
+    cout &lt;&lt; "Nhập số cột: ";
+    cin &gt;&gt; cols;
+    
+    int matrix[rows][cols];
+    
+    // Nhập ma trận
+    for (int i = 0; i &lt; rows; i++) {
+        for (int j = 0; j &lt; cols; j++) {
+            cout &lt;&lt; "Nhập phần tử [" &lt;&lt; i &lt;&lt; "][" &lt;&lt; j &lt;&lt; "]: ";
+            cin &gt;&gt; matrix[i][j];
+        }
+    }
+    
+    // In ma trận
+    cout &lt;&lt; "Ma trận vừa nhập:" &lt;&lt; endl;
+    for (int i = 0; i &lt; rows; i++) {
+        for (int j = 0; j &lt; cols; j++) {
+            cout &lt;&lt; matrix[i][j] &lt;&lt; " ";
+        }
+        cout &lt;&lt; endl;
+    }
+    
+    return 0;
+}</code></pre>
+                            `,
+                            exercises: [
+                                {
+                                    id: 11,
+                                    type: "quiz",
+                                    question: "Làm thế nào để truy cập phần tử thứ 3 trong mảng có tên 'arr'?",
+                                    options: [
+                                        "arr(3)",
+                                        "arr[3]",
+                                        "arr{3}",
+                                        "arr.3"
+                                    ],
+                                    correctAnswer: 1,
+                                    explanation: "Trong C++, chúng ta sử dụng dấu ngoặc vuông [] để truy cập phần tử mảng. Phần tử thứ 3 có chỉ số là 2 (vì mảng bắt đầu từ 0)."
+                                },
+                                {
+                                    id: 12,
+                                    type: "code",
+                                    question: "Viết chương trình tìm giá trị lớn nhất trong mảng số nguyên",
+                                    initialCode: `#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    
+    // Viết code của bạn ở đây
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "5\n3 7 2 9 1", expectedOutput: "Giá trị lớn nhất là: 9" }
+                                    ],
+                                    hint: "Khởi tạo một biến max với giá trị đầu tiên của mảng, sau đó duyệt qua các phần tử còn lại để so sánh."
+                                }
+                            ]
+                        },
+                        {
+                            id: 7,
+                            title: "Chuỗi ký tự",
+                            status: "not-started",
+                            level: 2,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Chuỗi ký tự trong C++</h3>
+                                <p class="mb-4">C++ cung cấp hai cách để làm việc với chuỗi ký tự: mảng ký tự (kiểu C) và lớp string (kiểu C++).</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Chuỗi kiểu C (Mảng ký tự)</h4>
+                                <pre><code class="language-cpp">// Khai báo chuỗi
+char str1[20];
+char str2[] = "Hello";
+
+// Nhập chuỗi
+cout &lt;&lt; "Nhập chuỗi: ";
+cin.getline(str1, 20);
+
+// In chuỗi
+cout &lt;&lt; str1 &lt;&lt; endl;</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Chuỗi kiểu C++ (Lớp string)</h4>
+                                <pre><code class="language-cpp">#include &lt;string&gt;
+
+// Khai báo chuỗi
+string str1;
+string str2 = "Hello";
+
+// Nhập chuỗi
+cout &lt;&lt; "Nhập chuỗi: ";
+getline(cin, str1);
+
+// In chuỗi
+cout &lt;&lt; str1 &lt;&lt; endl;</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Các thao tác với chuỗi string</h4>
+                                <pre><code class="language-cpp">string str1 = "Hello";
+string str2 = "World";
+
+// Nối chuỗi
+string result = str1 + " " + str2;  // "Hello World"
+
+// Độ dài chuỗi
+int len = str1.length();  // 5
+
+// So sánh chuỗi
+if (str1 == str2) {
+    cout &lt;&lt; "Hai chuỗi giống nhau" &lt;&lt; endl;
+}
+
+// Tìm kiếm
+int pos = str1.find("lo");  // 3
+
+// Cắt chuỗi
+string sub = str1.substr(1, 3);  // "ell"</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ hoàn chỉnh</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string fullName;
+    
+    cout &lt;&lt; "Nhập họ tên: ";
+    getline(cin, fullName);
+    
+    cout &lt;&lt; "Xin chào " &lt;&lt; fullName &lt;&lt; "!" &lt;&lt; endl;
+    cout &lt;&lt; "Độ dài tên: " &lt;&lt; fullName.length() &lt;&lt; " ký tự" &lt;&lt; endl;
+    
+    // Tách họ và tên
+    int spacePos = fullName.find(' ');
+    if (spacePos != string::npos) {
+        string firstName = fullName.substr(0, spacePos);
+        string lastName = fullName.substr(spacePos + 1);
+        
+        cout &lt;&lt; "Họ: " &lt;&lt; firstName &lt;&lt; endl;
+        cout &lt;&lt; "Tên: " &lt;&lt; lastName &lt;&lt; endl;
+    }
+    
+    return 0;
+}</code></pre>
+                            `,
+                            exercises: [
+                                {
+                                    id: 13,
+                                    type: "quiz",
+                                    question: "Hàm nào dùng để lấy độ dài của chuỗi string trong C++?",
+                                    options: [
+                                        "size()",
+                                        "length()",
+                                        "Cả hai đều đúng",
+                                        "len()"
+                                    ],
+                                    correctAnswer: 2,
+                                    explanation: "Cả size() và length() đều trả về độ dài của chuỗi string trong C++. Chúng hoàn toàn tương đương."
+                                },
+                                {
+                                    id: 14,
+                                    type: "code",
+                                    question: "Viết chương trình đếm số từ trong một chuỗi",
+                                    initialCode: `#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string text;
+    
+    // Viết code của bạn ở đây
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "Hello world from C++", expectedOutput: "Số từ trong chuỗi: 4" }
+                                    ],
+                                    hint: "Đếm số khoảng trắng trong chuỗi và cộng thêm 1. Lưu ý các khoảng trắng thừa."
+                                }
+                            ]
+                        }
                     ]
                 },
                 {
@@ -1310,7 +1622,193 @@ int main() {
                     description: "Lập trình hướng đối tượng chuyên sâu",
                     progress: 20,
                     modules: [
-                        // Các module của cấp độ 3 sẽ được thêm ở đây
+                        {
+                            id: 8,
+                            title: "Class và Object",
+                            status: "not-started",
+                            level: 3,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Lập trình hướng đối tượng trong C++</h3>
+                                <p class="mb-4">Lập trình hướng đối tượng (OOP) là phương pháp lập trình tập trung vào các đối tượng và các tương tác giữa chúng.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Class và Object</h4>
+                                <p class="mb-4">Class là khuôn mẫu để tạo các đối tượng. Object là thể hiện cụ thể của class.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Khai báo class</h4>
+                                <pre><code class="language-cpp">class Student {
+private:
+    string name;
+    int age;
+    float gpa;
+    
+public:
+    // Constructor
+    Student(string n, int a, float g) {
+        name = n;
+        age = a;
+        gpa = g;
+    }
+    
+    // Methods
+    void display() {
+        cout &lt;&lt; "Tên: " &lt;&lt; name &lt;&lt; endl;
+        cout &lt;&lt; "Tuổi: " &lt;&lt; age &lt;&lt; endl;
+        cout &lt;&lt; "Điểm: " &lt;&lt; gpa &lt;&lt; endl;
+    }
+    
+    // Getter và Setter
+    string getName() {
+        return name;
+    }
+    
+    void setName(string n) {
+        name = n;
+    }
+};</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Tạo và sử dụng object</h4>
+                                <pre><code class="language-cpp">int main() {
+    // Tạo object
+    Student student1("Nguyen Van A", 20, 3.5);
+    
+    // Sử dụng methods
+    student1.display();
+    
+    // Sử dụng getter và setter
+    cout &lt;&lt; "Tên sinh viên: " &lt;&lt; student1.getName() &lt;&lt; endl;
+    student1.setName("Tran Thi B");
+    
+    return 0;
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Constructor và Destructor</h4>
+                                <pre><code class="language-cpp">class Rectangle {
+private:
+    double width, height;
+    
+public:
+    // Default constructor
+    Rectangle() {
+        width = 0;
+        height = 0;
+    }
+    
+    // Parameterized constructor
+    Rectangle(double w, double h) {
+        width = w;
+        height = h;
+    }
+    
+    // Copy constructor
+    Rectangle(const Rectangle &other) {
+        width = other.width;
+        height = other.height;
+    }
+    
+    // Destructor
+    ~Rectangle() {
+        cout &lt;&lt; "Đối tượng Rectangle đã bị hủy" &lt;&lt; endl;
+    }
+    
+    double area() {
+        return width * height;
+    }
+};</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ hoàn chỉnh</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class BankAccount {
+private:
+    string accountNumber;
+    string ownerName;
+    double balance;
+    
+public:
+    BankAccount(string accNum, string name, double initialBalance) {
+        accountNumber = accNum;
+        ownerName = name;
+        balance = initialBalance;
+    }
+    
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            cout &lt;&lt; "Đã gửi: " &lt;&lt; amount &lt;&lt; endl;
+        } else {
+            cout &lt;&lt; "Số tiền không hợp lệ!" &lt;&lt; endl;
+        }
+    }
+    
+    void withdraw(double amount) {
+        if (amount > 0 && amount &lt;= balance) {
+            balance -= amount;
+            cout &lt;&lt; "Đã rút: " &lt;&lt; amount &lt;&lt; endl;
+        } else {
+            cout &lt;&lt; "Số tiền không hợp lệ hoặc không đủ!" &lt;&lt; endl;
+        }
+    }
+    
+    void display() {
+        cout &lt;&lt; "Số tài khoản: " &lt;&lt; accountNumber &lt;&lt; endl;
+        cout &lt;&lt; "Chủ tài khoản: " &lt;&lt; ownerName &lt;&lt; endl;
+        cout &lt;&lt; "Số dư: " &lt;&lt; balance &lt;&lt; endl;
+    }
+};
+
+int main() {
+    BankAccount account("123456", "Nguyen Van A", 1000);
+    
+    account.display();
+    account.deposit(500);
+    account.withdraw(200);
+    account.display();
+    
+    return 0;
+}</code></pre>
+                            `,
+                            exercises: [
+                                {
+                                    id: 15,
+                                    type: "quiz",
+                                    question: "Phương thức nào được gọi tự động khi một đối tượng được tạo?",
+                                    options: [
+                                        "Destructor",
+                                        "Constructor",
+                                        "Getter",
+                                        "Setter"
+                                    ],
+                                    correctAnswer: 1,
+                                    explanation: "Constructor là phương thức được gọi tự động khi một đối tượng được tạo. Nó thường dùng để khởi tạo các thuộc tính của đối tượng."
+                                },
+                                {
+                                    id: 16,
+                                    type: "code",
+                                    question: "Tạo class Student với các thuộc tính name, age, gpa và các phương thức display, setGpa, getGpa",
+                                    initialCode: `#include <iostream>
+#include <string>
+using namespace std;
+
+// Viết class Student ở đây
+
+int main() {
+    Student student("Nguyen Van A", 20, 3.5);
+    student.display();
+    
+    student.setGpa(3.7);
+    cout << "Điểm mới: " << student.getGpa() << endl;
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "", expectedOutput: "Tên: Nguyen Van A\nTuổi: 20\nĐiểm: 3.5\nĐiểm mới: 3.7" }
+                                    ],
+                                    hint: "Sử dụng constructor để khởi tạo các thuộc tính, và các phương thức getter/setter để truy cập và thay đổi thuộc tính private."
+                                }
+                            ]
+                        }
                     ]
                 },
                 {
@@ -1319,7 +1817,149 @@ int main() {
                     description: "Cấu trúc dữ liệu và thuật toán nâng cao",
                     progress: 10,
                     modules: [
-                        // Các module của cấp độ 4 sẽ được thêm ở đây
+                        {
+                            id: 9,
+                            title: "Con trỏ & cấp phát động",
+                            status: "not-started",
+                            level: 4,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Con trỏ trong C++</h3>
+                                <p class="mb-4">Con trỏ là biến lưu trữ địa chỉ bộ nhớ của biến khác.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Khai báo và sử dụng con trỏ</h4>
+                                <pre><code class="language-cpp">int x = 10;
+int *ptr = &x;  // ptr trỏ đến x
+
+cout &lt;&lt; "Giá trị của x: " &lt;&lt; x &lt;&lt; endl;        // 10
+cout &lt;&lt; "Địa chỉ của x: " &lt;&lt; &x &lt;&lt; endl;     // Địa chỉ của x
+cout &lt;&lt; "Giá trị của ptr: " &lt;&lt; ptr &lt;&lt; endl;  // Địa chỉ của x
+cout &lt;&lt; "Giá trị tại địa chỉ ptr: " &lt;&lt; *ptr &lt;&lt; endl;  // 10
+
+// Thay đổi giá trị thông qua con trỏ
+*ptr = 20;
+cout &lt;&lt; "Giá trị mới của x: " &lt;&lt; x &lt;&lt; endl;  // 20</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Con trỏ và mảng</h4>
+                                <pre><code class="language-cpp">int arr[5] = {1, 2, 3, 4, 5};
+int *ptr = arr;  // ptr trỏ đến phần tử đầu tiên của mảng
+
+for (int i = 0; i &lt; 5; i++) {
+    cout &lt;&lt; *(ptr + i) &lt;&lt; " ";  // 1 2 3 4 5
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Cấp phát động</h4>
+                                <pre><code class="language-cpp">// Cấp phát bộ nhớ cho một số nguyên
+int *ptr = new int;
+*ptr = 100;
+cout &lt;&lt; *ptr &lt;&lt; endl;  // 100
+delete ptr;  // Giải phóng bộ nhớ
+
+// Cấp phát mảng động
+int size = 5;
+int *arr = new int[size];
+
+for (int i = 0; i &lt; size; i++) {
+    arr[i] = i * 10;
+}
+
+for (int i = 0; i &lt; size; i++) {
+    cout &lt;&lt; arr[i] &lt;&lt; " ";  // 0 10 20 30 40
+}
+
+delete[] arr;  // Giải phóng mảng</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Con trỏ và hàm</h4>
+                                <pre><code class="language-cpp">// Truyền tham chiếu bằng con trỏ
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main() {
+    int x = 5, y = 10;
+    swap(&x, &y);
+    cout &lt;&lt; "x = " &lt;&lt; x &lt;&lt; ", y = " &lt;&lt; y &lt;&lt; endl;  // x = 10, y = 5
+    return 0;
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ hoàn chỉnh</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int size;
+    
+    cout &lt;&lt; "Nhập kích thước mảng: ";
+    cin &gt;&gt; size;
+    
+    // Cấp phát mảng động
+    int *arr = new int[size];
+    
+    // Nhập mảng
+    for (int i = 0; i &lt; size; i++) {
+        cout &lt;&lt; "Nhập phần tử thứ " &lt;&lt; i &lt;&lt; ": ";
+        cin &gt;&gt; arr[i];
+    }
+    
+    // Tính tổng
+    int sum = 0;
+    for (int i = 0; i &lt; size; i++) {
+        sum += arr[i];
+    }
+    
+    cout &lt;&lt; "Tổng các phần tử: " &lt;&lt; sum &lt;&lt; endl;
+    cout &lt;&lt; "Trung bình: " &lt;&lt; (double)sum / size &lt;&lt; endl;
+    
+    // Giải phóng bộ nhớ
+    delete[] arr;
+    
+    return 0;
+}</code></pre>
+                            `,
+                            exercises: [
+                                {
+                                    id: 17,
+                                    type: "quiz",
+                                    question: "Toán tử nào được sử dụng để lấy địa chỉ của một biến?",
+                                    options: [
+                                        "*",
+                                        "&",
+                                        "->",
+                                        "::"
+                                    ],
+                                    correctAnswer: 1,
+                                    explanation: "Toán tử & được sử dụng để lấy địa chỉ của một biến. Ví dụ: &x trả về địa chỉ bộ nhớ của biến x."
+                                },
+                                {
+                                    id: 18,
+                                    type: "code",
+                                    question: "Viết hàm sử dụng con trỏ để đảo ngược mảng số nguyên",
+                                    initialCode: `#include <iostream>
+using namespace std;
+
+// Viết hàm reverseArray ở đây
+
+int main() {
+    int arr[] = {1, 2, 3, 4, 5};
+    int size = 5;
+    
+    reverseArray(arr, size);
+    
+    cout << "Mảng sau khi đảo ngược: ";
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "", expectedOutput: "Mảng sau khi đảo ngược: 5 4 3 2 1" }
+                                    ],
+                                    hint: "Sử dụng hai con trỏ, một trỏ đến đầu mảng và một trỏ đến cuối mảng, sau đó hoán đổi các phần tử và di chuyển cả hai con trỏ về phía nhau."
+                                }
+                            ]
+                        }
                     ]
                 },
                 {
@@ -1328,7 +1968,216 @@ int main() {
                     description: "Dự án thực tế và tối ưu hiệu năng",
                     progress: 5,
                     modules: [
-                        // Các module của cấp độ 5 sẽ được thêm ở đây
+                        {
+                            id: 10,
+                            title: "Template và Exception",
+                            status: "not-started",
+                            level: 5,
+                            content: `
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Template trong C++</h3>
+                                <p class="mb-4">Template cho phép viết code tổng quát, làm việc với nhiều kiểu dữ liệu khác nhau.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Function Template</h4>
+                                <pre><code class="language-cpp">template &lt;typename T&gt;
+T max(T a, T b) {
+    return (a > b) ? a : b;
+}
+
+int main() {
+    cout &lt;&lt; max(10, 20) &lt;&lt; endl;        // 20
+    cout &lt;&lt; max(3.14, 2.71) &lt;&lt; endl;   // 3.14
+    cout &lt;&lt; max('a', 'z') &lt;&lt; endl;     // z
+    
+    return 0;
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Class Template</h4>
+                                <pre><code class="language-cpp">template &lt;typename T&gt;
+class Stack {
+private:
+    T* data;
+    int top;
+    int capacity;
+    
+public:
+    Stack(int size) {
+        capacity = size;
+        data = new T[capacity];
+        top = -1;
+    }
+    
+    ~Stack() {
+        delete[] data;
+    }
+    
+    void push(T element) {
+        if (top &lt; capacity - 1) {
+            data[++top] = element;
+        }
+    }
+    
+    T pop() {
+        if (top >= 0) {
+            return data[top--];
+        }
+        return T();
+    }
+    
+    bool isEmpty() {
+        return top == -1;
+    }
+};</code></pre>
+                                
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Xử lý ngoại lệ (Exception)</h3>
+                                <p class="mb-4">Exception cho phép xử lý lỗi một cách có cấu trúc và rõ ràng.</p>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Try, Catch, Throw</h4>
+                                <pre><code class="language-cpp">double divide(double a, double b) {
+    if (b == 0) {
+        throw "Lỗi: Không thể chia cho 0!";
+    }
+    return a / b;
+}
+
+int main() {
+    double x, y;
+    
+    cout &lt;&lt; "Nhập hai số: ";
+    cin &gt;&gt; x &gt;&gt; y;
+    
+    try {
+        double result = divide(x, y);
+        cout &lt;&lt; "Kết quả: " &lt;&lt; result &lt;&lt; endl;
+    }
+    catch (const char* msg) {
+        cout &lt;&lt; msg &lt;&lt; endl;
+    }
+    
+    return 0;
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Nhiều khối catch</h4>
+                                <pre><code class="language-cpp">try {
+    // Code có thể gây lỗi
+    if (x &lt; 0) {
+        throw "Số âm không hợp lệ";
+    }
+    if (x > 100) {
+        throw x;  // Ném ra một số nguyên
+    }
+}
+catch (const char* msg) {
+    cout &lt;&lt; "Lỗi chuỗi: " &lt;&lt; msg &lt;&lt; endl;
+}
+catch (int value) {
+    cout &lt;&lt; "Lỗi số: " &lt;&lt; value &lt;&lt; endl;
+}
+catch (...) {
+    cout &lt;&lt; "Lỗi không xác định" &lt;&lt; endl;
+}</code></pre>
+                                
+                                <h4 class="text-lg font-bold text-gray-800 mb-2">Ví dụ hoàn chỉnh</h4>
+                                <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+using namespace std;
+
+template &lt;typename T&gt;
+class Calculator {
+public:
+    T add(T a, T b) {
+        return a + b;
+    }
+    
+    T subtract(T a, T b) {
+        return a - b;
+    }
+    
+    T multiply(T a, T b) {
+        return a * b;
+    }
+    
+    T divide(T a, T b) {
+        if (b == 0) {
+            throw runtime_error("Lỗi: Không thể chia cho 0!");
+        }
+        return a / b;
+    }
+};
+
+int main() {
+    Calculator&lt;double&gt; calc;
+    double x, y;
+    char op;
+    
+    cout &lt;&lt; "Nhập biểu thức (ví dụ: 5 + 3): ";
+    cin &gt;&gt; x &gt;&gt; op &gt;&gt; y;
+    
+    try {
+        double result;
+        switch (op) {
+            case '+':
+                result = calc.add(x, y);
+                break;
+            case '-':
+                result = calc.subtract(x, y);
+                break;
+            case '*':
+                result = calc.multiply(x, y);
+                break;
+            case '/':
+                result = calc.divide(x, y);
+                break;
+            default:
+                throw runtime_error("Phép tính không hợp lệ!");
+        }
+        cout &lt;&lt; "Kết quả: " &lt;&lt; result &lt;&lt; endl;
+    }
+    catch (const exception& e) {
+        cout &lt;&lt; e.what() &lt;&lt; endl;
+    }
+    
+    return 0;
+}</code></pre>
+                            `,
+                            exercises: [
+                                {
+                                    id: 19,
+                                    type: "quiz",
+                                    question: "Từ khóa nào được sử dụng để định nghĩa một function template?",
+                                    options: [
+                                        "template",
+                                        "typename",
+                                        "class",
+                                        "T"
+                                    ],
+                                    correctAnswer: 0,
+                                    explanation: "Từ khóa template được sử dụng để định nghĩa cả function template và class template. Các từ khóa typename hoặc class được sử dụng bên trong template để chỉ định tham số kiểu."
+                                },
+                                {
+                                    id: 20,
+                                    type: "code",
+                                    question: "Viết một function template để tìm giá trị lớn nhất trong mảng bất kỳ kiểu dữ liệu",
+                                    initialCode: `#include <iostream>
+using namespace std;
+
+// Viết function template findMax ở đây
+
+int main() {
+    int intArr[] = {3, 7, 2, 9, 1};
+    double doubleArr[] = {3.14, 2.71, 1.41, 1.73};
+    
+    cout << "Max int: " << findMax(intArr, 5) << endl;
+    cout << "Max double: " << findMax(doubleArr, 4) << endl;
+    
+    return 0;
+}`,
+                                    testCases: [
+                                        { input: "", expectedOutput: "Max int: 9\nMax double: 3.14" }
+                                    ],
+                                    hint: "Sử dụng template với tham số kiểu T. Duyệt qua mảng và so sánh các phần tử để tìm giá trị lớn nhất."
+                                }
+                            ]
+                        }
                     ]
                 }
             ]
@@ -1345,7 +2194,12 @@ int main() {
                         2: 'completed',
                         3: 'completed',
                         4: 'in-progress',
-                        5: 'not-started'
+                        5: 'not-started',
+                        6: 'not-started',
+                        7: 'not-started',
+                        8: 'not-started',
+                        9: 'not-started',
+                        10: 'not-started'
                     },
                     exerciseScores: {
                         1: 10, 2: 8, 3: 10, 4: 9, 5: 10, 6: 8, 7: 10, 8: 9
@@ -1374,6 +2228,39 @@ int main() {
             document.getElementById('back-to-module').addEventListener('click', showCurrentModule);
             document.getElementById('back-from-quiz').addEventListener('click', showCurrentModule);
             document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+            document.getElementById('fab').addEventListener('click', toggleQuickActions);
+            
+            // Xử lý sự kiện cho các cấp độ
+            document.querySelectorAll('.level-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const level = parseInt(this.getAttribute('data-level'));
+                    showLevelModules(level);
+                });
+            });
+            
+            // Xử lý sự kiện cho quick actions
+            document.getElementById('quick-home').addEventListener('click', function(e) {
+                e.preventDefault();
+                showHomePage();
+                toggleQuickActions();
+            });
+            document.getElementById('quick-progress').addEventListener('click', function(e) {
+                e.preventDefault();
+                showProgressPage();
+                toggleQuickActions();
+            });
+            document.getElementById('quick-leaderboard').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLeaderboardPage();
+                toggleQuickActions();
+            });
+            document.getElementById('quick-exercises').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentModule) {
+                    showExercises();
+                    toggleQuickActions();
+                }
+            });
             
             // Hiển thị trang chủ mặc định
             showHomePage();
@@ -1474,6 +2361,15 @@ int main() {
             // Trong thiết kế hiện tại, danh sách mục học đã hiển thị trong sidebar
             // Nên chúng ta sẽ chọn mục đầu tiên để hiển thị
             showModule(1);
+        }
+
+        // Hiển thị các mục học của một cấp độ
+        function showLevelModules(levelId) {
+            // Tìm module đầu tiên của cấp độ
+            const level = courseData.levels.find(l => l.id === levelId);
+            if (level && level.modules.length > 0) {
+                showModule(level.modules[0].id);
+            }
         }
 
         // Hiển thị chi tiết mục học
@@ -1610,24 +2506,67 @@ int main() {
         // Hiển thị bài tập
         function renderExercises(exercises) {
             const container = document.getElementById('exercises-container');
-            container.innerHTML = '';
+            const tabsContainer = document.getElementById('exercise-tabs');
+            const resultContainer = document.getElementById('exercise-result');
             
+            container.innerHTML = '';
+            tabsContainer.innerHTML = '';
+            resultContainer.classList.add('hidden');
+            resultContainer.innerHTML = '';
+            
+            // Tạo tabs cho các bài tập
             exercises.forEach((exercise, index) => {
-                const exerciseElement = document.createElement('div');
-                exerciseElement.className = 'mb-8 p-4 border rounded-lg';
-                exerciseElement.innerHTML = `
-                    <h3 class="text-lg font-bold text-gray-800 mb-3">Bài ${index + 1}: ${exercise.question}</h3>
-                    <div class="exercise-content" id="exercise-${exercise.id}"></div>
-                `;
-                
-                container.appendChild(exerciseElement);
-                
-                if (exercise.type === 'quiz') {
-                    renderQuizExercise(exercise);
-                } else if (exercise.type === 'code') {
-                    renderCodeExercise(exercise);
+                const tab = document.createElement('button');
+                tab.className = `exercise-tab px-4 py-2 rounded-t-lg ${index === 0 ? 'active' : 'bg-gray-100'}`;
+                tab.textContent = `Bài ${index + 1}`;
+                tab.addEventListener('click', () => switchExerciseTab(index, exercises));
+                tabsContainer.appendChild(tab);
+            });
+            
+            // Hiển thị bài tập đầu tiên
+            if (exercises.length > 0) {
+                renderExercise(exercises[0], 0);
+            }
+        }
+
+        // Chuyển tab bài tập
+        function switchExerciseTab(index, exercises) {
+            // Cập nhật trạng thái tab
+            document.querySelectorAll('.exercise-tab').forEach((tab, i) => {
+                if (i === index) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                    tab.classList.add('bg-gray-100');
                 }
             });
+            
+            // Hiển thị bài tập được chọn
+            renderExercise(exercises[index], index);
+            
+            // Ẩn kết quả
+            document.getElementById('exercise-result').classList.add('hidden');
+        }
+
+        // Hiển thị một bài tập cụ thể
+        function renderExercise(exercise, index) {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            const exerciseElement = document.createElement('div');
+            exerciseElement.className = 'mb-8 p-4 border rounded-lg';
+            exerciseElement.innerHTML = `
+                <h3 class="text-lg font-bold text-gray-800 mb-3">Bài ${index + 1}: ${exercise.question}</h3>
+                <div class="exercise-content" id="exercise-${exercise.id}"></div>
+            `;
+            
+            container.appendChild(exerciseElement);
+            
+            if (exercise.type === 'quiz') {
+                renderQuizExercise(exercise);
+            } else if (exercise.type === 'code') {
+                renderCodeExercise(exercise);
+            }
         }
 
         // Hiển thị bài tập trắc nghiệm
@@ -1662,12 +2601,22 @@ int main() {
         function renderCodeExercise(exercise) {
             const container = document.getElementById(`exercise-${exercise.id}`);
             container.innerHTML = `
+                <div class="mb-4">
+                    <h4 class="font-bold text-gray-800 mb-2">Gợi ý:</h4>
+                    <p class="text-gray-600 bg-yellow-50 p-3 rounded">${exercise.hint}</p>
+                </div>
                 <div class="code-editor mb-3">
                     <textarea class="w-full h-40 bg-gray-800 text-white p-3 rounded font-mono" id="code-${exercise.id}">${exercise.initialCode}</textarea>
                 </div>
                 <div class="bg-gray-100 p-3 rounded">
-                    <h4 class="font-bold mb-2">Kết quả mong đợi:</h4>
-                    <pre class="bg-white p-2 rounded">${exercise.testCases[0].expectedOutput}</pre>
+                    <h4 class="font-bold mb-2">Test Cases:</h4>
+                    ${exercise.testCases.map((testCase, i) => `
+                        <div class="test-case mb-2 p-2 bg-white rounded">
+                            <div class="font-medium">Test case ${i+1}:</div>
+                            <div>Input: ${testCase.input || "Không có"}</div>
+                            <div>Expected Output: ${testCase.expectedOutput}</div>
+                        </div>
+                    `).join('')}
                 </div>
             `;
         }
@@ -1775,18 +2724,31 @@ int main() {
             let totalScore = 0;
             let maxScore = currentModule.exercises.length * 10;
             let allCorrect = true;
+            let results = [];
             
-            currentModule.exercises.forEach(exercise => {
+            currentModule.exercises.forEach((exercise, index) => {
+                let exerciseResult = {
+                    id: exercise.id,
+                    question: exercise.question,
+                    correct: false,
+                    score: 0,
+                    feedback: ''
+                };
+                
                 if (exercise.type === 'quiz') {
                     const selectedOption = document.querySelector(`input[name="exercise-${exercise.id}"]:checked`);
                     if (selectedOption && parseInt(selectedOption.value) === exercise.correctAnswer) {
                         totalScore += 10;
+                        exerciseResult.score = 10;
+                        exerciseResult.correct = true;
                         markQuizAnswer(exercise.id, parseInt(selectedOption.value), true);
                     } else if (selectedOption) {
                         markQuizAnswer(exercise.id, parseInt(selectedOption.value), false);
                         allCorrect = false;
+                        exerciseResult.feedback = 'Câu trả lời chưa chính xác';
                     } else {
                         allCorrect = false;
+                        exerciseResult.feedback = 'Bạn chưa chọn câu trả lời';
                     }
                     
                     // Hiển thị giải thích
@@ -1799,26 +2761,75 @@ int main() {
                     
                     if (hasCorrectOutput) {
                         totalScore += 8; // Giả lập điểm
+                        exerciseResult.score = 8;
+                        exerciseResult.correct = true;
                         markCodeResult(exercise.id, true);
                     } else {
                         markCodeResult(exercise.id, false);
                         allCorrect = false;
+                        exerciseResult.score = 5; // Điểm tham gia
+                        exerciseResult.feedback = 'Code chưa đúng yêu cầu. Hãy kiểm tra lại!';
                     }
                 }
+                
+                results.push(exerciseResult);
             });
             
-            // Hiển thị kết quả
-            const scorePercent = Math.round((totalScore / maxScore) * 100);
-            let message = `Bạn đã hoàn thành bài tập!\nĐiểm số: ${totalScore}/${maxScore} (${scorePercent}%)`;
-            
-            if (allCorrect) {
-                message += "\n🎉 Xuất sắc! Tất cả câu trả lời đều chính xác!";
-            }
-            
-            alert(message);
+            // Hiển thị kết quả chi tiết
+            showExerciseResults(results, totalScore, maxScore, allCorrect);
             
             // Cập nhật tiến độ
             updateProgressAfterSubmission(currentModule.id, totalScore, maxScore);
+        }
+
+        // Hiển thị kết quả bài tập
+        function showExerciseResults(results, totalScore, maxScore, allCorrect) {
+            const resultContainer = document.getElementById('exercise-result');
+            resultContainer.classList.remove('hidden');
+            
+            const scorePercent = Math.round((totalScore / maxScore) * 100);
+            
+            let resultHTML = `
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Kết quả bài làm</h3>
+                <div class="mb-6 p-4 rounded-lg ${allCorrect ? 'bg-green-100 border border-green-200' : 'bg-blue-100 border border-blue-200'}">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-lg font-bold">Điểm số: ${totalScore}/${maxScore} (${scorePercent}%)</span>
+                            ${allCorrect ? '<span class="ml-2 bg-green-500 text-white px-2 py-1 rounded text-sm">🎉 Xuất sắc!</span>' : ''}
+                        </div>
+                        <button id="retry-exercises" class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded">
+                            <i class="fas fa-redo mr-2"></i>Làm lại
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-4">
+            `;
+            
+            results.forEach((result, index) => {
+                resultHTML += `
+                    <div class="p-4 border rounded-lg ${result.correct ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-bold">Bài ${index + 1}: ${result.question}</h4>
+                            <span class="px-2 py-1 rounded text-sm ${result.correct ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}">
+                                ${result.score}/10 điểm
+                            </span>
+                        </div>
+                        ${result.feedback ? `<p class="text-red-600">${result.feedback}</p>` : ''}
+                    </div>
+                `;
+            });
+            
+            resultHTML += `</div>`;
+            
+            resultContainer.innerHTML = resultHTML;
+            
+            // Xử lý sự kiện làm lại bài tập
+            document.getElementById('retry-exercises').addEventListener('click', function() {
+                showExercises();
+            });
+            
+            // Cuộn đến kết quả
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
         }
 
         // Nộp bài kiểm tra nhanh
@@ -1858,10 +2869,21 @@ int main() {
         function checkCodeOutput(code, expectedOutput) {
             // Trong thực tế, chúng ta sẽ gửi code đến API compiler
             // Ở đây chúng ta chỉ kiểm tra đơn giản
-            if (code.includes('Xin chào C++') || 
-                code.includes('soNguyen = 100') || 
-                code.includes('Tổng') || code.includes('Hiệu') || code.includes('Tích') || code.includes('Thương') ||
-                code.includes('chẵn') || code.includes('lẻ')) {
+            const codeLower = code.toLowerCase();
+            const expectedLower = expectedOutput.toLowerCase();
+            
+            // Kiểm tra xem code có chứa output mong đợi không
+            if (codeLower.includes('xin chào c++') || 
+                codeLower.includes('nam, bạn 20 tuổi') ||
+                codeLower.includes('diện tích hình chữ nhật là: 15') ||
+                codeLower.includes('tổng: 18') || codeLower.includes('hiệu: 12') || 
+                codeLower.includes('tích: 45') || codeLower.includes('thương: 5') ||
+                codeLower.includes('là số chẵn') || codeLower.includes('là số lẻ') ||
+                codeLower.includes('giá trị lớn nhất là: 9') ||
+                codeLower.includes('số từ trong chuỗi: 4') ||
+                codeLower.includes('tên: nguyen van a') || codeLower.includes('tuổi: 20') || codeLower.includes('điểm: 3.5') ||
+                codeLower.includes('mảng sau khi đảo ngược: 5 4 3 2 1') ||
+                codeLower.includes('max int: 9') || codeLower.includes('max double: 3.14')) {
                 return true;
             }
             return false;
@@ -1939,6 +2961,8 @@ int main() {
             
             // Cập nhật thanh tiến trình
             document.getElementById('header-progress').style.width = `${percent}%`;
+            document.getElementById('sidebar-progress-bar').style.width = `${percent}%`;
+            document.getElementById('sidebar-progress').textContent = `${percent}%`;
         }
 
         // Cập nhật bảng tiến độ
@@ -2053,6 +3077,12 @@ int main() {
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
             }
+        }
+
+        // Hiển thị/ẩn menu quick actions
+        function toggleQuickActions() {
+            const quickActions = document.getElementById('quick-actions');
+            quickActions.classList.toggle('hidden');
         }
 
         // Biến toàn cục
